@@ -33,21 +33,32 @@ program main
     ! --- END PART3: GRAY CODE ---
 
     ! --- PART1:MATRIX---
-    print *, something_special
+    print *, repeat('#',20)," PART1:MATRIX ",repeat('#',20)
+    print *, "--> something special"
+    print *, "                       ",repeat(' ',10),"dim1",repeat(' ',8),"dim2"
+    print *, "lower bound index array",lbound(something_special)
+    print *, "lower bound index array",ubound(something_special)
     call matrix_stats(something_special)
+    print *, "--> different special"
+    print *, "                       ",repeat(' ',10),"dim1",repeat(' ',8),"dim2"
+    print *, "lower bound index array",lbound(different_special)
+    print *, "lower bound index array",ubound(different_special)
     call matrix_stats(different_special)
-
-    ! --- PART1:MATRIX---
+    print *, repeat('#',20)," END PART1:MATRIX ",repeat('#',20)
+    ! --- END PART1:MATRIX---
 
     ! --- PART2:print ---
+    print *, repeat('#',20)," PART2 ",repeat('#',20)
     call printText('r')
     call printText('l')
     call printText('c') 
     call printText('i')
+    print *, repeat('#',20)," END PART2 ",repeat('#',20)
     ! --- PART2:print ---
 
     
     ! --- PART3:GRAY CODE ---
+    print *, repeat('#',20)," PART3 ",repeat('#',20)
     ! fill the matrix
     do k = 1 , 4
         do l = 1 , 5
@@ -79,13 +90,13 @@ program main
     do i=1 , 4
         print *,result_matrix(i,:)
     end do
+    print *, repeat('#',20)," PART3 ",repeat('#',20)
     ! --- END PART3: GRAY CODE ---
 contains
     subroutine matrix_stats(matrix)
         real :: matrix(:,:)
         integer, dimension(2) :: shape_array
-
-        print *, "matrix stats" 
+        print *, "BEGIN matrix_stat:", repeat('.',20)
 
         ! De afmetingen (aantal rijen, aantal kolommen) en het aantal elementen.
         shape_array  = shape(matrix)
@@ -96,7 +107,9 @@ contains
         print *, "the smallest value is:",MINVAL(matrix)
         ! De bereiken van de indices voor zowel de rijen als de kolommen. 
         ! -- Dit doe je zowel in de subroutine als in het hoofdprogramma: bespreek het verschil.
-        print *, "TODO!!!!" 
+        print *, "                       ",repeat(' ',10),"dim1",repeat(' ',8),"dim2"
+        print *, "lower bound index array",lbound(matrix)
+        print *, "lower bound index array",ubound(matrix)
         ! De som van elke rij en de som van elke kolom.
         print *, "sum of each row:"
         do i=1,shape_array(1)
@@ -107,11 +120,12 @@ contains
         do i=1,shape_array(2)
             print *, SUM(matrix(:,i))
         end do
-        print *, "------------"
+        print *, "END matrix_stat:", repeat('.',20)
     end subroutine
 
     subroutine printText(alignment)
         character alignment
+        ! create a unique string
         character, dimension(40) :: text 
         text(1:20) = repeat('*',20)
         text(21:40) = repeat('x',20)
