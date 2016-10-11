@@ -1,3 +1,107 @@
+! Willem Melis
+! gecompileerd met GNU Fortran (Ubuntu 5.4.0-6ubuntu1~16.04.2) 5.4.0 20160609
+! compiler-commando:  gfortran kennismaking.f90 -o Huistaak1
+! 
+! De opgave bestaat uit 3 delen elk deel wordt appart besproken om het overzichtelijk te houden
+! 
+! --------------------------------------------------------------------------------------------
+! uitvoer van deel1:
+!  --> something special
+!                                   dim1        dim2
+!  lower bound index array           1           1
+!  upper bound index array           4           4
+!  BEGIN matrix_stat:....................
+!  number of rows:           4
+!  number of collums:           4
+!  the largest value is:   1.00000000
+!  the smallest value is:   6.25000000E-02
+!                                   dim1        dim2
+!  lower bound index array           1           1
+!  upper bound index array           4           4
+!  sum of each row:
+!    2.12500000
+!    2.12500000
+!    2.12500000
+!    2.12500000
+!  sum of each collum
+!    2.12500000
+!    2.12500000
+!    2.12500000
+!    2.12500000
+!  END matrix_stat:....................
+!  --> different special
+!                                   dim1        dim2
+!  lower bound index array          -3           0
+!  upper bound index array           3           2
+!  BEGIN matrix_stat:....................
+!  number of rows:           7
+!  number of collums:           3
+!  the largest value is:   1.90910006
+!  the smallest value is:   9.09089968E-02
+!                                   dim1        dim2
+!  lower bound index array           1           1
+!  upper bound index array           7           3
+!  sum of each row:
+!    3.00002003
+!    3.00001001
+!    3.00004005
+!    2.99994993
+!    2.99994993
+!    3.00000906
+!    3.00002003
+!  sum of each collum
+!    6.99993944
+!    7.00003004
+!    7.00002909
+!  END matrix_stat:....................
+! 
+! De eerste array heeft de vorm 4*4
+! De indexen lopen van 1 tot en met 4, en hierdoor is geen verschil te merken als
+! men deze opvraagt binnen of buiten een subroutine.
+! De twee array heeft indexen lopen van -3 tot en met 3 in de eerste dimensie.
+! Als de array wordt doorgegeven aan dee subroutine hebben we plots een index van 1 tot en met 7.
+! Een array is nu eenmaal slechts een start pointer en een lengte. 
+! --------------------------------------------------------------------------------------------
+! uitvoer van deel2:
+! 12345678901234567890123456789012345678901234567890123456789012345678901234567890
+!                                         ********************xxxxxxxxxxxxxxxxxxxx
+! ********************xxxxxxxxxxxxxxxxxxxx
+!                     ********************xxxxxxxxxxxxxxxxxxxx
+!                     xxxxxxxxxxxxxxxxxxxx********************
+! --------------------------------------------------------------------------------------------
+! uitvoer van deel3:
+! --- with integer --
+!           7
+! --- with vector --
+! ---> input
+!           0           1           2           3           4
+! ---> output
+!           0           1           3           2           6
+! --- with matrix --
+! ---> input
+!           0           1           2           3           4
+!           5           6           7           8           9
+!          10          11          12          13          14
+!          15          16          17          18          19
+! ---> output
+!           0           1           3           2           6
+!           7           5           4          12          13
+!          15          14          10          11           9
+!           8          24          25          27          26
+! 
+! Gray code verschilt van binairy notatie omdat het slechts een bit
+! wijzigt bij het overgaan naar een volgend getal.
+! De binaire notatie geeft een overhangen met twee bits die veranderen bv. 1->2
+!     0001 -> 0010
+!       ||
+!       ||-> bit gaat van 1 naar 0
+!       |
+!       |-> bit gaat van 0 naar 1
+! In gray code is dit niet zo van 1 naar 2 is als volgt
+!     0001 -> 0011
+!       |
+!       |-> alleen deze bit verandert, van 0 naar 1
+
 program main
     !
     ! 
@@ -18,6 +122,7 @@ program main
     ! --- END PART1:MATRIX---
 
     ! --- PART2:PRINT
+    character, dimension(80) :: first_line
     ! --- END PART2:PRINT
 
     ! --- PART3:GRAY CODE ---
@@ -37,18 +142,26 @@ program main
     print *, "--> something special"
     print *, "                       ",repeat(' ',10),"dim1",repeat(' ',8),"dim2"
     print *, "lower bound index array",lbound(something_special)
-    print *, "lower bound index array",ubound(something_special)
+    print *, "upper bound index array",ubound(something_special)
     call matrix_stats(something_special)
     print *, "--> different special"
     print *, "                       ",repeat(' ',10),"dim1",repeat(' ',8),"dim2"
     print *, "lower bound index array",lbound(different_special)
-    print *, "lower bound index array",ubound(different_special)
+    print *, "upper bound index array",ubound(different_special)
     call matrix_stats(different_special)
     print *, repeat('#',20)," END PART1:MATRIX ",repeat('#',20)
     ! --- END PART1:MATRIX---
 
     ! --- PART2:print ---
     print *, repeat('#',20)," PART2 ",repeat('#',20)
+    do i=0,7
+        do j=1,9
+            number=i*10+j
+            Write( first_line(number), '(i0)' ) j
+        end do
+        Write( first_line(i*10+10), '(i0)' ) 0
+    end do
+    print *, first_line
     call printText('r')
     call printText('l')
     call printText('c') 
@@ -109,7 +222,7 @@ contains
         ! -- Dit doe je zowel in de subroutine als in het hoofdprogramma: bespreek het verschil.
         print *, "                       ",repeat(' ',10),"dim1",repeat(' ',8),"dim2"
         print *, "lower bound index array",lbound(matrix)
-        print *, "lower bound index array",ubound(matrix)
+        print *, "upper bound index array",ubound(matrix)
         ! De som van elke rij en de som van elke kolom.
         print *, "sum of each row:"
         do i=1,shape_array(1)
