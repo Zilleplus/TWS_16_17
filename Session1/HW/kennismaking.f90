@@ -2,7 +2,7 @@
 ! gecompileerd met GNU Fortran (Ubuntu 5.4.0-6ubuntu1~16.04.2) 5.4.0 20160609
 ! compiler-commando:  gfortran kennismaking.f90 -o Huistaak1
 ! 
-! De opgave bestaat uit 3 delen elk deel wordt appart besproken om het overzichtelijk te houden
+! De opgave bestaat uit 3 delen elk deel wordt appart besproken om het overzichtelijk te houden.
 ! 
 ! --------------------------------------------------------------------------------------------
 ! uitvoer van deel1:
@@ -55,12 +55,17 @@
 !    7.00002909
 !  END matrix_stat:....................
 ! 
+! De afmetingen, grootste en kleinste waarde wordt perfect opgehaald, hier is niet op aan te merken.
+! 
 ! De eerste array heeft de vorm 4*4
 ! De indexen lopen van 1 tot en met 4, en hierdoor is geen verschil te merken als
 ! men deze opvraagt binnen of buiten een subroutine.
 ! De twee array heeft indexen lopen van -3 tot en met 3 in de eerste dimensie.
-! Als de array wordt doorgegeven aan dee subroutine hebben we plots een index van 1 tot en met 7.
+! Als de array wordt doorgegeven aan de subroutine hebben we plots een index van 1 tot en met 7.
 ! Een array is nu eenmaal slechts een start pointer en een lengte. 
+!
+! De som van elke rij en de some van elke kollom worden perfect afgedrukt, hier is opnieuw
+! niets op aan te merken.
 ! --------------------------------------------------------------------------------------------
 ! uitvoer van deel2:
 ! 12345678901234567890123456789012345678901234567890123456789012345678901234567890
@@ -70,7 +75,10 @@
 !                     xxxxxxxxxxxxxxxxxxxx********************
 ! --------------------------------------------------------------------------------------------
 ! uitvoer van deel3:
-! --- with integer --
+!  --- with integer --
+!  ---> input
+!           5
+! ---> output
 !           7
 ! --- with vector --
 ! ---> input
@@ -89,15 +97,15 @@
 !          15          14          10          11           9
 !           8          24          25          27          26
 ! 
-! Gray code verschilt van binairy notatie omdat het slechts een bit
-! wijzigt bij het overgaan naar een volgend getal.
+! Gray code is soms eenvoudiger te gebruiken dan de binaire notatie doordat het slechts een 
+! enkele bit wijzigt bij het overgaan naar een volgend getal.
 ! De binaire notatie geeft een overhangen met twee bits die veranderen bv. 1->2
 !     0001 -> 0010
 !       ||
 !       ||-> bit gaat van 1 naar 0
 !       |
 !       |-> bit gaat van 0 naar 1
-! In gray code is dit niet zo van 1 naar 2 is als volgt
+! In gray code is dit niet zo als we gaan van 1 naar 2 verandert slechts 1 bit
 !     0001 -> 0011
 !       |
 !       |-> alleen deze bit verandert, van 0 naar 1
@@ -188,6 +196,9 @@ program main
      
     ! print out the results...
     print *, "--- with integer --"
+    print *, "---> input"
+    print *, 5
+    print *, "---> output"
     print *, x 
     print *, "--- with vector --"
     print *, "---> input"
