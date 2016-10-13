@@ -131,6 +131,7 @@ program main
 
     ! --- PART2:PRINT
     character, dimension(80) :: first_line
+    character, dimension(40) :: text 
     ! --- END PART2:PRINT
 
     ! --- PART3:GRAY CODE ---
@@ -170,10 +171,14 @@ program main
         Write( first_line(i*10+10), '(i0)' ) 0
     end do
     print *, first_line
-    call printText('r')
-    call printText('l')
-    call printText('c') 
-    call printText('i')
+    ! create a unique string
+    text(1:20) = repeat('*',20)
+    text(21:40) = repeat('x',20)
+
+    call printText('r',text)
+    call printText('l',text)
+    call printText('c',text) 
+    call printText('i',text)
     print *, repeat('#',20)," END PART2 ",repeat('#',20)
     ! --- PART2:print ---
 
@@ -247,12 +252,9 @@ contains
         print *, "END matrix_stat:", repeat('.',20)
     end subroutine
 
-    subroutine printText(alignment)
+    subroutine printText(alignment,text)
         character alignment
-        ! create a unique string
         character, dimension(40) :: text 
-        text(1:20) = repeat('*',20)
-        text(21:40) = repeat('x',20)
 
         select case(alignment)
             case ('l')
