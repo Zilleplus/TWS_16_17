@@ -73,6 +73,15 @@
 ! ********************xxxxxxxxxxxxxxxxxxxx
 !                     ********************xxxxxxxxxxxxxxxxxxxx
 !                     xxxxxxxxxxxxxxxxxxxx********************
+! Een case lijkt in dit geval het kortst.
+! Dan hebbe we slechts 2 lijnen per geval.
+! 
+! Een alternatieve implementatie is met if en elseif-statements.
+! Alhoewel we dan de eerste lijn uitsparen, zullen we toch langere code krijgen aangezien
+! we dan de naam van de variabele alignment moeten herhalen op iedere elseif of if regel.
+! 
+! De code zelf is niet elegant en bevat magicnumbers, maar de opdracht stelde dat het zo kort
+! mogelijk moest.
 ! --------------------------------------------------------------------------------------------
 ! uitvoer van deel3:
 !  --- with integer --
