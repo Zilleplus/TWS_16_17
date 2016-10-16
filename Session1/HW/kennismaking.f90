@@ -1,6 +1,9 @@
 ! Willem Melis
 ! gecompileerd met GNU Fortran (Ubuntu 5.4.0-6ubuntu1~16.04.2) 5.4.0 20160609
 ! compiler-commando:  gfortran kennismaking.f90 -o Huistaak1
+! Gecompileerd op server tienen
+! 
+! Deze opdracht was ongeveer 2 uur werk.
 ! 
 ! De opgave bestaat uit 3 delen elk deel wordt appart besproken om het overzichtelijk te houden.
 ! 
@@ -244,7 +247,6 @@ contains
         print *, "the largest value is:",MAXVAL(matrix)
         print *, "the smallest value is:",MINVAL(matrix)
         ! De bereiken van de indices voor zowel de rijen als de kolommen. 
-        ! -- Dit doe je zowel in de subroutine als in het hoofdprogramma: bespreek het verschil.
         print *, "                       ",repeat(' ',10),"dim1",repeat(' ',8),"dim2"
         print *, "lower bound index array",lbound(matrix)
         print *, "upper bound index array",ubound(matrix)
