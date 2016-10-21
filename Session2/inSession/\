@@ -1,0 +1,17 @@
+#include<iostream>
+#include<cassert>
+#include<vector>
+
+
+int main(){
+    int n;
+    std::cout<<"Enter a positive number"<<std::endl;
+    std::cin>>n;
+    std::cout<<"Output n= "<<n<<std::endl;
+    std::cerr<<"Error n= "<<n<<std::endl;
+
+    //#ifndef DNDEBUG
+    assert(n>=0);
+    //#endif
+    std::vector<int> vec(n);
+}
