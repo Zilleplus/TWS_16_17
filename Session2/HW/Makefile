@@ -24,8 +24,10 @@ part1:
 
 part2:
 	@echo ------part2--------- 
-	$(CXX) $(CXXFLAGS) -O0 mean_dev.cpp HW_part2_main.cpp HW_part2_lib.hpp -o HW_part2_l0.out
-	$(CXX) $(CXXFLAGS) -O3 mean_dev.cpp HW_part2_main.cpp HW_part2_lib.hpp -o HW_part2_l3.out
+	$(CXX) $(CXXFLAGS)  -O0 mean_dev.cpp HW_part2_main.cpp HW_part2_lib.hpp -o HW_part2_l0.out
+	$(CXX) $(CXXFLAGS)  -O3 mean_dev.cpp HW_part2_main.cpp HW_part2_lib.hpp -o HW_part2_l3.out
+	$(CXX) $(CXXFLAGS) -D opti -O0 mean_dev.cpp HW_part2_main.cpp HW_part2_lib.hpp -o HW_part2_l0_opti.out
+	$(CXX) $(CXXFLAGS) -D opti -O3 mean_dev.cpp HW_part2_main.cpp HW_part2_lib.hpp -o HW_part2_l3_opti.out
 
 part3:
 	@echo ------part3--------- 
