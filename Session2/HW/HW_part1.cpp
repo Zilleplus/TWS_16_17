@@ -1,6 +1,7 @@
 #include<iostream>
 #include<cassert>
 #include<vector>
+#include "stdio.h"
 
 #include <algorithm>
 #include <random>
@@ -41,7 +42,11 @@ int main(int argc, char** argv){
 
     mean_and_dev(time,mean,stdev);
 
+    /*
     std::cout << "the mean: " << mean <<"\n";
     std::cout << " the stdev: " << stdev << "\n";
+    */
+    printf("%d %e %e \n",sizeVector,mean,stdev);
+
 }
 

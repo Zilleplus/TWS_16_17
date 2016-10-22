@@ -12,7 +12,7 @@
 
 void foo(int&);
 int main(int argc, char** argv){
-    char functionType = **(++argv);
+    //char functionType = **(++argv);
     int sizeVector = atoi(*(++argv));
     int numberOfSimulations= atoi(*(++argv));
     int numberOfDiscarted= atoi(*(++argv));
@@ -28,11 +28,11 @@ int main(int argc, char** argv){
         std::shuffle(v.begin(), v.end(), std::mt19937{std::random_device{}()});
         clock_gettime(CLOCK_MONOTONIC, &l_start);
         for(int i_increment=0;i_increment<sizeVector;i_increment++){
-            if(functionType=='c'){
-                foo(v[i_increment]);
-            }else{
-                inlineFunctions::foo(v[i_increment]);
-            }
+        #ifndef opti
+            foo(v[i_increment]);
+        #else
+            inlineFunctions::foo(v[i_increment]);
+        #endif
         }
         clock_gettime(CLOCK_MONOTONIC, &l_end);
 
@@ -45,7 +45,7 @@ int main(int argc, char** argv){
 
     mean_and_dev(time,mean,stdev);
 
-    printf("%d %e %e \n",numberOfSimulations,mean,stdev);
+    printf("%d %e %e \n",sizeVector,mean,stdev);
 }
 
 void foo(int& numberToIncrement){
