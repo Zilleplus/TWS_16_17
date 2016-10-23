@@ -21,7 +21,6 @@ part1:
 	@echo ------part1--------- 
 	# sequential
 	g++ $(CXXFLAGS) HW_part1.cpp mean_dev.cpp -o HW_part1.out
-	g++ $(CXXFLAGS) -O0 HW_part1.cpp mean_dev.cpp -o HW_part1_sec_level0.out
 	g++ $(CXXFLAGS) -O3 -ffast-math HW_part1.cpp mean_dev.cpp -o HW_part1_sec_level3.out
 	# parallel
 	g++ $(CXXFLAGS) $(PARALLELFLAGS) -O0 HW_part1.cpp mean_dev.cpp -o HW_part1_par.out
