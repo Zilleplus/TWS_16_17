@@ -45,7 +45,6 @@ dataLocation="./data/part3"
 
 rm $dataLocation/*
 for i in `seq 1 $i_max`; do ./HW_part3_par.out $((2**$i)) $numberOfSim numberOfDiscarted  ; done | tee "$dataLocation/HW_part3_par"
-for i in `seq 1 $i_max`; do ./HW_part3_par_l3.out $((2**$i)) $numberOfSim numberOfDiscarted  ; done | tee "$dataLocation/HW_part3_par"
+    for i in `seq 1 $i_max`; do ./HW_part3_par_l3.out $((2**$i)) $numberOfSim numberOfDiscarted  ; done | tee "$dataLocation/HW_part3_par_level3"
 for i in `seq 1 $i_max`; do ./HW_part3_serial.out $((2**$i)) $numberOfSim numberOfDiscarted  ; done | tee "$dataLocation/HW_part3_serial"
-for i in `seq 1 $i_max`; do ./HW_part3_serial_level0.out $((2**$i)) $numberOfSim numberOfDiscarted  ; done | tee "$dataLocation/HW_part3_serial_level0"
 for i in `seq 1 $i_max`; do ./HW_part3_serial_level3.out $((2**$i)) $numberOfSim numberOfDiscarted  ; done | tee "$dataLocation/HW_part3_serial_level3"
