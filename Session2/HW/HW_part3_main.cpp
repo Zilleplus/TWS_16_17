@@ -54,8 +54,7 @@ int main(int argc, char** argv){
     mean_and_dev(time,mean,stdev);
 
     /* print the inner product to the outputstream to avoid certain optimilisations */
-    fprintf(stderr, "%d" , innerProduct);
-    printf("%d %e %e \n",numberOfSimulations,mean,stdev);
+    printf("%d %e %e %d \n",sizeVector,mean,stdev,innerProduct);
 }
 
 int  inner_prod_par(std::vector<int> leftVector,std::vector<int> rightVector){
