@@ -35,9 +35,10 @@ part2:
 
 part3:
 	@echo ------part3--------- 
+	# parallel
 	g++ $(CXXFLAGS) $(LIBS)  $(PARALLELFLAGS) HW_part3_main.cpp mean_dev.cpp -o HW_part3_par.out
 	g++ $(CXXFLAGS) $(LIBS)  $(PARALLELFLAGS) -O3 HW_part3_main.cpp mean_dev.cpp -o HW_part3_par_l3.out
+	# serial
 	g++ $(CXXFLAGS)   HW_part3_main.cpp mean_dev.cpp -o HW_part3_serial.out
-	g++ $(CXXFLAGS) -O1 -ffast-math HW_part3_main.cpp mean_dev.cpp -o HW_part3_serial_level0.out
 	g++ $(CXXFLAGS) -O3 -ffast-math HW_part3_main.cpp mean_dev.cpp -o HW_part3_serial_level3.out
 
