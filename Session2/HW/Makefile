@@ -19,8 +19,13 @@ info:
 
 part1:
 	@echo ------part1--------- 
+	# sequential
 	g++ $(CXXFLAGS) HW_part1.cpp mean_dev.cpp -o HW_part1.out
-	g++ $(CXXFLAGS) $(PARALLELFLAGS) HW_part1.cpp mean_dev.cpp -o HW_part1_par.out
+	g++ $(CXXFLAGS) -O0 HW_part1.cpp mean_dev.cpp -o HW_part1_sec_level0.out
+	g++ $(CXXFLAGS) -O3 -ffast-math HW_part1.cpp mean_dev.cpp -o HW_part1_sec_level3.out
+	# parallel
+	g++ $(CXXFLAGS) $(PARALLELFLAGS) -O0 HW_part1.cpp mean_dev.cpp -o HW_part1_par.out
+	g++ $(CXXFLAGS) $(PARALLELFLAGS) -O3 HW_part1.cpp mean_dev.cpp -o HW_part1_par_l3.out
 
 part2:
 	@echo ------part2--------- 
@@ -32,4 +37,8 @@ part2:
 part3:
 	@echo ------part3--------- 
 	g++ $(CXXFLAGS) $(LIBS)  $(PARALLELFLAGS) HW_part3_main.cpp mean_dev.cpp -o HW_part3_par.out
-	g++ $(CXXFLAGS)   HW_part3_main.cpp mean_dev.cpp -o HW_part3_par.out
+	g++ $(CXXFLAGS) $(LIBS)  $(PARALLELFLAGS) -O3 HW_part3_main.cpp mean_dev.cpp -o HW_part3_par_l3.out
+	g++ $(CXXFLAGS)   HW_part3_main.cpp mean_dev.cpp -o HW_part3_serial.out
+	g++ $(CXXFLAGS) -O1 -ffast-math HW_part3_main.cpp mean_dev.cpp -o HW_part3_serial_level0.out
+	g++ $(CXXFLAGS) -O3 -ffast-math HW_part3_main.cpp mean_dev.cpp -o HW_part3_serial_level3.out
+
