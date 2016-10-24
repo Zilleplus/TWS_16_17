@@ -26,7 +26,8 @@ int main(int argc, char** argv){
         struct timespec l_start, l_end;
 
         clock_gettime(CLOCK_MONOTONIC, &l_start);
-        #ifdef USEOMP
+        #ifdef GNU_PAR
+        /* extra routine, do these make any difference? they dont really here*/
             __gnu_parallel::sort(v.begin(), v.end());
         #else
             std::sort (v.begin(), v.end()); 
