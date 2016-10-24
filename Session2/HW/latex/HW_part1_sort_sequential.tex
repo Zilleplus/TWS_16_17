@@ -21,10 +21,11 @@ legend style={font=\small}
 ]
 \addplot+[mark=none,very thick,solid,error bars/.cd,y dir=both,y explicit,error bar style={solid,very thin}] table[x index=0, y index =1,y error index=2] {../data/part1/HW_part1_serial}; % <======Adjust file name; x index = 0 means x can be found in column 0
 \addplot+[mark=none,very thick,densely dotted,error bars/.cd,y dir=both,y explicit,x dir=both,x explicit,error bar style={solid,very thin}] table[x index=0, y index =1,y error index=2] {../data/part1/HW_part1_serial_level3};  % <======Adjust file name; x index = 0 means x can be found in column 0
+\addplot+[mark=none,very thick,densely dotted,error bars/.cd,y dir=both,y explicit,x dir=both,x explicit,error bar style={solid,very thin}] table[x index=0, y index =1,y error index=2] {../data/part1/HW_part1_sec_max_opt};  % <======Adjust file name; x index = 0 means x can be found in column 0
 
 %\addplot+[mark=none,dashed,very thick,error bars/.cd,y dir=both,y explicit,x dir=both,x explicit,error bar style={solid,very thin}] table[x index=0, y index =1,y error index=2] {sum_O1.out};
 %\addplot+[mark=none,very thick,dashdotted,error bars/.cd,y dir=both,y explicit,x dir=both,x explicit,error bar style={solid,very thin}] table[x index=0, y index =1,y error index=2] {sum_Ofast.out};
-\legend{sort\_O0,serial.sort\_O3};
+\legend{serial sort\_O0,serial sort\_O3,serial sort max optimalisations};
 \end{axis}
 
 \end{tikzpicture}
