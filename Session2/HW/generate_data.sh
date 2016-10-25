@@ -1,17 +1,19 @@
 #!/bin/bash
 
 echo 'compiling the tools'
-# make
+make clean
+make
 
 echo 'generating data part1'
-i_max=14
-numberOfSim=500
-numberOfDiscarted=50
+i_max=18
+numberOfSim=1000
+numberOfDiscarted=100
 dataLocation="./data/part1"
 
 rm $dataLocation/*
 for i in `seq 1 $i_max`; do ./HW_part1.out $((2**$i)) $numberOfSim $numberOfDiscarted  ; done | tee "$dataLocation/HW_part1_serial"
 for i in `seq 1 $i_max`; do ./HW_part1_sec_level3.out $((2**$i)) $numberOfSim $numberOfDiscarted ; done | tee "$dataLocation/HW_part1_serial_level3"
+for i in `seq 1 $i_max`; do ./HW_part1_sec_max_opt.out $((2**$i)) $numberOfSim $numberOfDiscarted ; done | tee "$dataLocation/HW_part1_sec_max_opt"
 
 for i in `seq 1 $i_max`; do ./HW_part1_par.out $((2**$i)) $numberOfSim $numberOfDiscarted ; done | tee "$dataLocation/HW_part1_parallel"
 for i in `seq 1 $i_max`; do OMP_NUM_THREADS=2 ./HW_part1_par.out $((2**$i)) $numberOfSim $numberOfDiscarted ; done | tee "$dataLocation/HW_part1_parallel_t2"

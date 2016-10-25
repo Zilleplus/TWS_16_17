@@ -10,7 +10,7 @@ all: part1 part2 part3
 
 clean:
 	rm *.out
-	rm*.o
+	rm *.o
 
 info:
 	@echo Compiler:	 CXX	  = $(CXX)
@@ -21,17 +21,18 @@ part1:
 	@echo ------part1--------- 
 	# sequential
 	g++ $(CXXFLAGS) HW_part1.cpp mean_dev.cpp -o HW_part1.out
-	g++ $(CXXFLAGS) -O3 -ffast-math HW_part1.cpp mean_dev.cpp -o HW_part1_sec_level3.out
+	g++ $(CXXFLAGS) -O3 HW_part1.cpp mean_dev.cpp -o HW_part1_sec_level3.out
+	g++ $(CXXFLAGS) -Ofast -ffast-math -fprefetch-loop-arrays HW_part1.cpp mean_dev.cpp -o HW_part1_sec_max_opt.out
 	# parallel
 	g++ $(CXXFLAGS) $(PARALLELFLAGS) -O0 HW_part1.cpp mean_dev.cpp -o HW_part1_par.out
 	g++ $(CXXFLAGS) $(PARALLELFLAGS) -O3 HW_part1.cpp mean_dev.cpp -o HW_part1_par_l3.out
 
 part2:
 	@echo ------part2--------- 
-	$(CXX) $(CXXFLAGS)  -O0 mean_dev.cpp HW_part2_main.cpp HW_part2_lib.hpp -o HW_part2_l0.out
-	$(CXX) $(CXXFLAGS)  -O3 mean_dev.cpp HW_part2_main.cpp HW_part2_lib.hpp -o HW_part2_l3.out
-	$(CXX) $(CXXFLAGS) -D opti -O0 mean_dev.cpp HW_part2_main.cpp HW_part2_lib.hpp -o HW_part2_l0_opti.out
-	$(CXX) $(CXXFLAGS) -D opti -O3 mean_dev.cpp HW_part2_main.cpp HW_part2_lib.hpp -o HW_part2_l3_opti.out
+	$(CXX) $(CXXFLAGS)  -O0 mean_dev.cpp HW_part2_main.cpp HW_part2_lib.cpp -o HW_part2_l0.out
+	$(CXX) $(CXXFLAGS)  -O3 mean_dev.cpp HW_part2_main.cpp HW_part2_lib.cpp -o HW_part2_l3.out
+	$(CXX) $(CXXFLAGS) -D opti -O0 mean_dev.cpp HW_part2_main.cpp HW_part2_lib.cpp -o HW_part2_l0_opti.out
+	$(CXX) $(CXXFLAGS) -D opti -O3 mean_dev.cpp HW_part2_main.cpp HW_part2_lib.cpp -o HW_part2_l3_opti.out
 
 part3:
 	@echo ------part3--------- 

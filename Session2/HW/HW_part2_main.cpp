@@ -10,7 +10,6 @@
 #include "HW_part2_lib.hpp"
 #include "mean_dev.hpp"
 
-void foo(int&);
 int main(int argc, char** argv){
     //char functionType = **(++argv);
     int sizeVector = atoi(*(++argv));
@@ -29,7 +28,7 @@ int main(int argc, char** argv){
         clock_gettime(CLOCK_MONOTONIC, &l_start);
         for(int i_increment=0;i_increment<sizeVector;i_increment++){
         #ifndef opti
-            foo(v[i_increment]);
+            regularWay::foo(v[i_increment]);
         #else
             inlineFunctions::foo(v[i_increment]);
         #endif
@@ -48,6 +47,3 @@ int main(int argc, char** argv){
     printf("%d %e %e \n",sizeVector,mean,stdev);
 }
 
-void foo(int& numberToIncrement){
-    numberToIncrement++;
-}

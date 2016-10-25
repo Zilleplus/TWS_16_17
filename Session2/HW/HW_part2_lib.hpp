@@ -6,4 +6,9 @@ namespace inlineFunctions{
         numberToIncrement++;
     }
 }
+
+namespace regularWay{
+    void foo(int& numberToIncrement);
+}
+
 #endif
