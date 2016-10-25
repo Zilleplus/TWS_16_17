@@ -24,6 +24,7 @@ int main(int argc, char** argv){
     std::vector<double> time(numberOfSimulations-numberOfDiscarted);
     std::vector<int> v1(sizeVector),v2(sizeVector) ;
 
+    /* fill the vector with 1,2,3... */
     std::iota(v1.begin(),v1.end(),1);
     std::iota(v2.begin(),v2.end(),1);
 
@@ -44,6 +45,7 @@ int main(int argc, char** argv){
 
         clock_gettime(CLOCK_MONOTONIC, &l_end);
 
+        /* calculate and print out the standard deviation and the mean */
         if(i_time>=numberOfDiscarted)
             time[i_time-numberOfDiscarted] =(l_end.tv_sec - l_start.tv_sec)+(l_end.tv_nsec - l_start.tv_nsec) / 1000000000.0;
     }
