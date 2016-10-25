@@ -10,7 +10,7 @@ all: part1 part2 part3
 
 clean:
 	rm *.out
-	rm *.gch
+	rm*.o
 
 info:
 	@echo Compiler:	 CXX	  = $(CXX)
