@@ -7,6 +7,9 @@
 #include<iomanip>
 #include"element_apply.hpp"
 
+/* define the type used in the program */
+typedef long double floatingPointType;
+
 /* functor class of matvec */
 template<typename T,typename T_h>
 class Matvec{
@@ -28,8 +31,8 @@ class Matvec{
         y[lastElementIndex] = (x[lastElementIndex-1] -2*x[lastElementIndex])/pow(h,2);
     }
 };
-template<typename T>
-auto max_norm(T& x,T& y){
+template<typename Tx,typename Ty>
+long double max_norm(Tx& x,Ty& y){
     auto maxnorm = std::abs(x[0] - y[0]);
     for(int i=1;i<x.size();i++){
         auto new_maxnorm = std::abs(x[i] - y[i]);
@@ -62,7 +65,7 @@ int main(int argc,char** args) {
     for (int i=0; i<testVector.size(); ++i) {
         testVector[i] = i+1;
     }
-    Example_functor<double>  example_functor(2);
+    Example_functor<long double>  example_functor(2);
     transform_with_function(example_functor,testVector);
 
     /*
@@ -73,27 +76,27 @@ int main(int argc,char** args) {
     args++;
     if(argc > 1)n = atoi(*args);
 
-    tws::vector<long double> b(n) ;
-    tws::vector<long double> s(n) ;
-    tws::vector<long double> x(n) ;
+    tws::vector<floatingPointType> b(n) ;
+    tws::vector<floatingPointType> x(n) ;
 
-    long double h = 1/(double(n)+1);
+    floatingPointType h = 1/(double(n)+1);
     for (int i=0; i<x.size(); ++i){
         x[i] = (i+1)*h;
         b[i] = (3*x[i]+pow(x[i],2.0))*exp(x[i]);
     }
 
     /* define the functor */
-    Matvec <tws::vector<long double>, long double > matvec(h);
+    Matvec <tws::vector<floatingPointType>, floatingPointType> matvec(h);
     /* calculate the solution of the 1D poisson */
     tws::cg( matvec, x, b, 1.e-10, n );
 
     /* find the exact solution */
+    tws::vector<long double> s(n) ;
     for(int i=0;i<x.size();i++){
         s[i]= (x[i]-pow(x[i],2))*exp(x[i]);
     }
 
-    double max_norm_err = max_norm<tws::vector<long double>>(s,x);
+    long double max_norm_err = max_norm<tws::vector<long double>,tws::vector<floatingPointType> >(s,x);
 
     std::cout
             << std::setprecision(std::numeric_limits<long double>::digits10+1)
