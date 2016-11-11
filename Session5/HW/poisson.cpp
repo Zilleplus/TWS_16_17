@@ -98,7 +98,7 @@ int main(int argc,char** args) {
     std::cout
             << std::setprecision(std::numeric_limits<long double>::digits10+1)
             << std::scientific;
-    std::cout<<"n="<< n << " max_norm_error=" << max_norm_err<< "\t"<< std::endl;
+    std::cout<< n << " " << max_norm_err<< "\t"<< std::endl;
 
 //    std::cout<<"x"<<x<<std::endl;
 //    std::cout<<"sol"<<sol<<std::endl;
