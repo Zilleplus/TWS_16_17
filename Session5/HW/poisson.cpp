@@ -7,6 +7,9 @@
 #include<iomanip>
 #include"element_apply.hpp"
 
+#define MAX_INTERATIONS_CG 100000
+#define DEFAULT_N 100
+
 /* define the type used in the program */
 typedef long double floatingPointType;
 
@@ -19,27 +22,30 @@ class Matvec{
     Matvec(T_h h){
         this->h=h;
     }
-    /* the matrix A is already compensating for the minus side from the f */
+    /* the matrix A is compensating for the minus side from the f */
     void operator() ( T const& x, T& y) const{
         for(int i=1;i<x.size()-1;i++){
-            y[i] = (x[i-1] - 2*x[i] + x[i+1]) \
-                   /pow(h,2);
+            y[i] = (x[i-1] - 2.0*x[i] + x[i+1])
+                   /pow(h,2.0);
         }
         /* 2 exceptions on the borders */
-        y[0] = (-2*x[0] + x[1])/pow(h,2);
+        y[0] = (-2*x[0] + x[1])/pow(h,2.0);
         int lastElementIndex=y.size()-1;
-        y[lastElementIndex] = (x[lastElementIndex-1] -2*x[lastElementIndex])/pow(h,2);
+        y[lastElementIndex] = (x[lastElementIndex-1] -2.0*x[lastElementIndex])/pow(h,2.0);
     }
 };
 template<typename Tx,typename Ty>
 long double max_norm(Tx& x,Ty& y){
-    auto maxnorm = std::abs(x[0] - y[0]);
+    long double maxnorm = std::abs(x[0] - y[0]);
+    int locationMax=0;
     for(int i=1;i<x.size();i++){
-        auto new_maxnorm = std::abs(x[i] - y[i]);
+        long double new_maxnorm = std::abs(x[i] - y[i]);
         if(maxnorm < new_maxnorm){
             maxnorm = new_maxnorm;
+            locationMax=i;
         }
     }
+    std::cout << "the maximum is located at:"<< locationMax << "\n";
     return maxnorm;
 }
 /* functor class of matvec */
@@ -69,31 +75,52 @@ int main(int argc,char** args) {
     transform_with_function(example_functor,testVector);
 
     /*
-     * Solve the 1D poisson equation, par 2,3,4 of the homework assignment
+     * Solve the 1D poisson equation, part 2,3,4 of the homework assignment
      */
-    int n;
+    int n=DEFAULT_N;
     /* if an argument is present it must be n */
-    args++;
-    if(argc > 1)n = atoi(*args);
+    if(argc > 1)n = atoi(*++args);
 
     tws::vector<floatingPointType> b(n) ;
     tws::vector<floatingPointType> x(n) ;
 
-    floatingPointType h = 1/(double(n)+1);
+    floatingPointType h = 1.0/(floatingPointType(n)+1.0);
     for (int i=0; i<x.size(); ++i){
         x[i] = (i+1)*h;
         b[i] = (3*x[i]+pow(x[i],2.0))*exp(x[i]);
+        //x[i] = 0;
     }
 
     /* define the functor */
     Matvec <tws::vector<floatingPointType>, floatingPointType> matvec(h);
-    /* calculate the solution of the 1D poisson */
-    tws::cg( matvec, x, b, 1.e-10, n );
+
+    /* test the functor */
+    //tws::vector<floatingPointType> test(4);
+    //tws::vector<floatingPointType> testOutput(4) ;
+
+    //testOutput[0]=1; testOutput[1]=1; testOutput[2]=1; testOutput[3]=1;   
+    //test[0]=0.3;test[1]=0.5;test[2]=0.1;test[3]=0.4;
+
+    //std::cout << h << "\n";
+    //matvec(test,testOutput);
+    //std::cout << testOutput;
+    //matlab output: 
+    //   1.0e+03 *
+    //
+    //   -1.020100020402000
+    //   -6.120600122412001
+    //   7.140700142814001
+    //   -7.140700142814001
+    //output from this code:
+    // [-1020.1,-6120.6,7140.7,-7140.7,]
+
+    /* calculate the solution of the 1D poisson, use the epsilon of the chosen type as tolerance */
+    tws::cg( matvec, x, b, std::numeric_limits<floatingPointType>::epsilon() , MAX_INTERATIONS_CG);
 
     /* find the exact solution */
     tws::vector<long double> s(n) ;
     for(int i=0;i<x.size();i++){
-        s[i]= (x[i]-pow(x[i],2))*exp(x[i]);
+        s[i]= (x[i]-pow(x[i],2.0))*exp(x[i]);
     }
 
     long double max_norm_err = max_norm<tws::vector<long double>,tws::vector<floatingPointType> >(s,x);
@@ -103,8 +130,8 @@ int main(int argc,char** args) {
             << std::scientific;
     std::cout<< n << " " << max_norm_err<< "\t"<< std::endl;
 
+    std::cout<<x-s ;
 //    std::cout<<"x"<<x<<std::endl;
 //    std::cout<<"sol"<<sol<<std::endl;
     return 0 ;
-
 }
