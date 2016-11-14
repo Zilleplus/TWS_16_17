@@ -1,3 +1,21 @@
+/*
+ * WIT Willem Melis
+ * 6-7 uur, veel problemen gehad om die poisson te debuggen.
+ * Uiteindelijk wel veel van geleerd, spijtig van de fout in de opgave, gelukkig was het discussieforum er
+ *
+ * De startwaarde van x lijkt weinig invloed te hebben op oplossing.
+ * Het zou kunnen dat het iets meer tijd vergde er zijn geen tesen op tijd gedaan.
+ * Daarnaast zijn er maar enkele andere startwarrde gekozen alles 0 of alles 1.
+ * De startwaarde in die nu in de code staat is (i+1)*h een rechte...
+ *
+ * Op de grafiek uit poisson.dpf is af te leiden dat naarmate n groter wordt de error zal dalen.
+ * Dit was natuurlijk te verwachten, maar als de matrix A groter wordt verslecht zijn conditie.
+ * Als n=10 is de conditie ongever 50 terwijl bij een n=100 de conditie al over de 4000 is.
+ * In het begin zal de nauwkeurigheid van het algoritme een grote rol spelen in de fout.
+ * Terwijl bij een grote n de conditie de dominerende factor zal zijn van de fout.
+ */
+
+
 #include "vector.hpp"
 #include "cg.hpp"
 #include <iostream>
@@ -5,7 +23,7 @@
 #include <type_traits>
 #include <math.h>
 #include<iomanip>
-#include"element_apply.h"
+#include"element_apply.hpp"
 
 #define MAX_INTERATIONS_CG 100000
 #define DEFAULT_N 100
@@ -37,12 +55,10 @@ class Matvec{
 template<typename Tx,typename Ty>
 long double max_norm(Tx& x,Ty& y){
     long double maxnorm = std::abs(x[0] - y[0]);
-    int locationMax=0;
     for(int i=1;i<x.size();i++){
         long double new_maxnorm = std::abs(x[i] - y[i]);
         if(maxnorm < new_maxnorm){
             maxnorm = new_maxnorm;
-            locationMax=i;
         }
     }
     return maxnorm;
