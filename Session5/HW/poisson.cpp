@@ -5,7 +5,7 @@
 #include <type_traits>
 #include <math.h>
 #include<iomanip>
-#include"element_apply.hpp"
+#include"element_apply.h"
 
 #define MAX_INTERATIONS_CG 100000
 #define DEFAULT_N 100
@@ -45,7 +45,6 @@ long double max_norm(Tx& x,Ty& y){
             locationMax=i;
         }
     }
-    std::cout << "the maximum is located at:"<< locationMax << "\n";
     return maxnorm;
 }
 /* functor class of matvec */
@@ -87,32 +86,12 @@ int main(int argc,char** args) {
     floatingPointType h = 1.0/(floatingPointType(n)+1.0);
     for (int i=0; i<x.size(); ++i){
         x[i] = (i+1)*h;
-        b[i] = (3*x[i]+pow(x[i],2.0))*exp(x[i]);
+        b[i] = -(3*x[i]+pow(x[i],2.0))*exp(x[i]);
         //x[i] = 0;
     }
 
     /* define the functor */
     Matvec <tws::vector<floatingPointType>, floatingPointType> matvec(h);
-
-    /* test the functor */
-    //tws::vector<floatingPointType> test(4);
-    //tws::vector<floatingPointType> testOutput(4) ;
-
-    //testOutput[0]=1; testOutput[1]=1; testOutput[2]=1; testOutput[3]=1;   
-    //test[0]=0.3;test[1]=0.5;test[2]=0.1;test[3]=0.4;
-
-    //std::cout << h << "\n";
-    //matvec(test,testOutput);
-    //std::cout << testOutput;
-    //matlab output: 
-    //   1.0e+03 *
-    //
-    //   -1.020100020402000
-    //   -6.120600122412001
-    //   7.140700142814001
-    //   -7.140700142814001
-    //output from this code:
-    // [-1020.1,-6120.6,7140.7,-7140.7,]
 
     /* calculate the solution of the 1D poisson, use the epsilon of the chosen type as tolerance */
     tws::cg( matvec, x, b, std::numeric_limits<floatingPointType>::epsilon() , MAX_INTERATIONS_CG);
@@ -120,7 +99,7 @@ int main(int argc,char** args) {
     /* find the exact solution */
     tws::vector<long double> s(n) ;
     for(int i=0;i<x.size();i++){
-        s[i]= (x[i]-pow(x[i],2.0))*exp(x[i]);
+        s[i]= ((i+1)*h-pow((i+1)*h,2.0))*exp((i+1)*h);
     }
 
     long double max_norm_err = max_norm<tws::vector<long double>,tws::vector<floatingPointType> >(s,x);
@@ -130,7 +109,7 @@ int main(int argc,char** args) {
             << std::scientific;
     std::cout<< n << " " << max_norm_err<< "\t"<< std::endl;
 
-    std::cout<<x-s ;
+//    std::cout<<x-s ;
 //    std::cout<<"x"<<x<<std::endl;
 //    std::cout<<"sol"<<sol<<std::endl;
     return 0 ;
