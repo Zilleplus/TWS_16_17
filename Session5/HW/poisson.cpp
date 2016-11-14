@@ -25,13 +25,13 @@ class Matvec{
     /* the matrix A is compensating for the minus side from the f */
     void operator() ( T const& x, T& y) const{
         for(int i=1;i<x.size()-1;i++){
-            y[i] = (x[i-1] - 2.0*x[i] + x[i+1])
+            y[i] = (-x[i-1] + 2.0*x[i] - x[i+1])
                    /pow(h,2.0);
         }
         /* 2 exceptions on the borders */
-        y[0] = (-2*x[0] + x[1])/pow(h,2.0);
+        y[0] = (2*x[0] - x[1])/pow(h,2.0);
         int lastElementIndex=y.size()-1;
-        y[lastElementIndex] = (x[lastElementIndex-1] -2.0*x[lastElementIndex])/pow(h,2.0);
+        y[lastElementIndex] = (-x[lastElementIndex-1] + 2.0*x[lastElementIndex])/pow(h,2.0);
     }
 };
 template<typename Tx,typename Ty>
@@ -86,7 +86,7 @@ int main(int argc,char** args) {
     floatingPointType h = 1.0/(floatingPointType(n)+1.0);
     for (int i=0; i<x.size(); ++i){
         x[i] = (i+1)*h;
-        b[i] = -(3*x[i]+pow(x[i],2.0))*exp(x[i]);
+        b[i] = (3*x[i]+pow(x[i],2.0))*exp(x[i]);
         //x[i] = 0;
     }
 
