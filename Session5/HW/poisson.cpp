@@ -1,18 +1,34 @@
 /*
  * WIT Willem Melis
  * 6-7 uur, veel problemen gehad om die poisson te debuggen.
- * Uiteindelijk wel veel van geleerd, spijtig van de fout in de opgave, gelukkig was het discussieforum er
+ * Uiteindelijk wel veel van geleerd, spijtig van de fout in de opgave, gelukkig was het discussieforum er.
  *
- * De startwaarde van x lijkt weinig invloed te hebben op oplossing.
- * Het zou kunnen dat het iets meer tijd vergde er zijn geen tesen op tijd gedaan.
- * Daarnaast zijn er maar enkele andere startwarrde gekozen alles 0 of alles 1.
- * De startwaarde in die nu in de code staat is (i+1)*h een rechte...
+ * Gecompileerd op server voeren
+ *
+ * compiler commando: g++ poisson.cpp -O3 -std=c++14
+ * ./a.out geeft als uitput: 100 2.1234166244357412191e-05
+ * Als eerste argument kan optioneel een andere n dan 100 worden meegegeven.
+ * compiler versie: gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.4)
+ * 
+ * Het compiler commando bevat de optie -O3 om de testen iets sneller te kunnen uitvoeren.
+ * Dit lijkt de stabiliteit van het programma niet te beinvloeden maar is dus niet strikt noodzakelijk.
+ *
+ * De startwaarde van x lijkt weinig invloed te hebben op de oplossing.
+ * Het zou kunnen dat het iets meer tijd vergt, er zijn uiteindelijk geen testen op tijd gedaan.
+ * Daarnaast zijn er maar enkele andere startwaarde gekozen ,alle elementen van x 0 of 1.
+ * De startwaarde die nu in de code staat is (i+1)*h een rechte.
  *
  * Op de grafiek uit poisson.dpf is af te leiden dat naarmate n groter wordt de error zal dalen.
  * Dit was natuurlijk te verwachten, maar als de matrix A groter wordt verslecht zijn conditie.
- * Als n=10 is de conditie ongever 50 terwijl bij een n=100 de conditie al over de 4000 is.
+ * Als n=10 is de conditie ongeveer 50 terwijl bij een n=100 de conditie al over de 4000 is.
  * In het begin zal de nauwkeurigheid van het algoritme een grote rol spelen in de fout.
  * Terwijl bij een grote n de conditie de dominerende factor zal zijn van de fout.
+ * Er is dus een soort "sweet spot" waar de totale fout het kleinst zal zijn.
+ * Een grotere n zorgt dus niet noodzakelijk voor een beter oplossing.
+ *
+ * Het spreekt voor zich dat dit effect het eerst zal voorkomen bij the type float.
+ * Aangezien dit algoritme minder nauwkeurig is zal de conditie al sneller slechter 
+ * worden dat het algoritme nauwkeuriger kan worden.
  */
 
 
