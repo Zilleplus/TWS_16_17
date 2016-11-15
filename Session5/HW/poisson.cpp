@@ -3,7 +3,7 @@
  * 6-7 uur, veel problemen gehad om die poisson te debuggen.
  * Uiteindelijk wel veel van geleerd, spijtig van de fout in de opgave, gelukkig was het discussieforum er.
  *
- * Gecompileerd op server voeren
+ * Gecompileerd en getest op server voeren
  *
  * compiler commando: g++ poisson.cpp -O3 -std=c++14
  * ./a.out geeft als uitput: 100 2.1234166244357412191e-05
@@ -27,7 +27,7 @@
  * Een grotere n zorgt dus niet noodzakelijk voor een beter oplossing.
  *
  * Het spreekt voor zich dat dit effect het eerst zal voorkomen bij the type float.
- * Aangezien dit algoritme minder nauwkeurig is zal de conditie al sneller slechter 
+ * Doordat dit algoritme minder nauwkeurig is zal de conditie al sneller slechter 
  * worden dat het algoritme nauwkeuriger kan worden.
  */
 
@@ -141,8 +141,5 @@ int main(int argc,char** args) {
             << std::scientific;
     std::cout<< n << " " << max_norm_err<< "\t"<< std::endl;
 
-//    std::cout<<x-s ;
-//    std::cout<<"x"<<x<<std::endl;
-//    std::cout<<"sol"<<sol<<std::endl;
     return 0 ;
 }
