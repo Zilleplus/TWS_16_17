@@ -1,6 +1,29 @@
+! -------------------------------
 ! WIT Willem Melis
 ! gecompiler commando:
 ! gfortran  fmsave.o  FM.o  FMZM90.o mpfun90.o mpmod90.o mpmodm90.o mpmodx90.o multi_precision.f90 
+! getest op server tienen
+! -------------------------------
+! 
+! -------------------------------
+! Installatie procedure FM:
+! -------------------------------
+! dowload volgende 4 bestanden FM.f95,fmsave.f95,FMZM90.f95
+! Compileer de 4 bestanden: 
+!     gfortran fmsave.f95  -c -O3
+!     gfortran FM.f95  -c -O3
+!     gfortran FMZM90.f95  -c -O3
+!     gfortran TestFM.f95  -c -O3
+! -------------------------------
+! Installatie procedure mpmod90:
+! -------------------------------
+! download de tar en untar deze
+! ga in de folder f90 en compileer het project via het make commando
+! volgende bestanden hebben we nodig om dit bestand te compileren: 
+! .mod bestanden : mpfunmod.mod,mpmodule.mod
+! .o bestanden : mpfun90.o mpmod90.o mpmodm90.o mpmodx90.o
+! -------------------------------
+! 
 program main
     ! import lib from assignment in class
     USE FMZM
@@ -58,7 +81,5 @@ program main
         CALL MPWRITE(6,x_funmod90)
         x_funmod90=x_new_mpfun90
     end do
-    
-    CALL MPWRITE(6,x_funmod90)
     
 end program
