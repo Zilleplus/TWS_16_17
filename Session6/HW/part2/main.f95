@@ -2,11 +2,12 @@
 program main
     implicit none
 
+    integer :: INFO,INFO_chol
     integer,parameter :: N=4
     integer, parameter :: wp= selected_real_kind(4)
-    complex, parameter :: minus_one=(-1)
+    complex, parameter :: minus_one=(-1),BETA=0,ALPHA=1
     integer :: i,j
-    complex(kind=wp), dimension(N,N) :: A,D,H
+    complex(kind=wp), dimension(N,N) :: A,H,L,cholesky,H_chol
 	real :: b,c,pi
 
     ! define pi
@@ -20,15 +21,46 @@ program main
             A(i,j) = sqrt(-2*log(b))*exp(2*PI*sqrt(minus_one)*c)
         end do
     end do
-    call printMatrix(A,N,N)
-    D=A
 
     ! H=A*AT 
     !        TRANSA, TRANSB, M, N,  K,  ALPHA, A, LDA, B, LDB, BETA, C, LDC
-    call cgemm('N' ,   'C' , N, N, 0_wp, 0_wp, A, N,   D, N,   0 ,   H, N)
+    call cgemm('N' ,   'C' , N, N , N,  complex(1,0), A,  N,  A,  N,   complex(0,0) ,  H , N)
+    ! H = MATMUL(A,transpose(CONJG(A))) ! this is a slower way to do this, usefull to check if i used the lapack routine correctly
+    print *, "H:"
+    call printMatrix(H,N,N)
+
 
     ! cholesky decomposition
+    !           UPLO N A  LDA  INFO
+    call cpotrf('L', N,H,  N,  INFO_chol)
+    print *, INFO_chol
+    print*, '---'
+    print*, 'cholesky:'
+    call printMatrix(H,N,N)
+
+    ! the function ctrmm cant be used as it only allows one of the matrices to be triagular
+
+    ! now check if H=L*L*
+    ! get L from H
+    do i=1,N
+        L(i,1:i) = H(i,1:i)
+        if (i<N) then
+            ! L(i,i+1:n) = 0.0d0
+            do j=i+1,n
+                L(i,j) = complex(0, 0)
+            end do
+        end if
+    end do
+    print*, '---'
+    print*, 'L:'
+    call printMatrix(L,N,N)
+    print*, '---'
+    print*, 'H_col:'
+    H_chol =MATMUL(L,transpose(CONJG(L))) ! use the easy way, its only a check (discussion forum)
+    call printMatrix(H_chol,N,N)
+    
     contains
+        ! subroutine to prints (part) of the matrix
         subroutine printMatrix(matrix,n,m)
             complex(kind=wp), dimension(N,N) :: matrix
             integer :: n,m,i
@@ -36,5 +68,4 @@ program main
                 print*, matrix(i,1:m)
             end do
         end subroutine
-
 end program
