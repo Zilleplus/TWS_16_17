@@ -4,6 +4,7 @@ program main
 
     integer :: INFO,INFO_chol
     integer,parameter :: N=4
+    complex, parameter :: c_one=1,c_zero=0
     integer, parameter :: wp= selected_real_kind(4)
     complex, parameter :: minus_one=(-1),BETA=0,ALPHA=1
     integer :: i,j
@@ -25,7 +26,7 @@ program main
 
     ! H=A*AT 
     !        TRANSA, TRANSB, M, N,  K,    ALPHA,      A, LDA, B, LDB,      BETA,       C, LDC
-    call cgemm('N' ,   'C' , N, N , N,  complex(1,0), A,  N,  A,  N,   complex(0,0) ,  H , N)
+    call cgemm('N' ,   'C' , N, N , N,    c_one,      A,  N,  A,  N,      c_zero ,  H , N)
     ! H = MATMUL(A,transpose(CONJG(A))) ! this is a slower way to do this, usefull to check if i used the lapack routine correctly
     print *, "H:"
     call printMatrix(H,N,N)
@@ -50,7 +51,7 @@ program main
         if (i<N) then
             ! L(i,i+1:n) = 0.0d0
             do j=i+1,n
-                L(i,j) = complex(0, 0)
+                L(i,j) = c_zero
             end do
         end if
     end do
@@ -66,6 +67,8 @@ program main
     call inf_norm_complex(max_val,H_original-H_chol) 
 
     print *, max_val
+
+    print *, strict_upper_triangular_sum(L)
 
     
     contains
@@ -88,11 +91,22 @@ program main
             max_val=0
             do i=1,N
                 do j=1,N
-                    buffer =  abs(matrix(j,i)) 
+                    buffer =  cabs(matrix(j,i)) 
                     if(buffer>max_val) then
                         max_val=buffer
                     end if 
                 end do
             end do
         end subroutine
+        function strict_upper_triangular_sum(matrix) result (abs_sum)
+            complex(kind=wp), dimension(N,N) :: matrix
+            complex :: abs_sum
+            integer :: i
+            ! loop over differen collums, again because of cache not over rows...
+            ! matrix(1,2) = 1 ! uncomment this to test if this routine fails if there are non zeros...
+            abs_sum=0
+            do i=2,N
+                abs_sum = abs_sum + sum(cabs(matrix(1:i-1,i)))
+            end do
+        end function
 end program
