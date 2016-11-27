@@ -24,6 +24,7 @@
 ! .o bestanden : mpfun90.o mpmod90.o mpmodm90.o mpmodx90.o
 ! -------------------------------
 ! 
+! 
 program main
     ! import lib from assignment in class
     USE FMZM
@@ -34,28 +35,28 @@ program main
     integer i,j
     TYPE (FM), SAVE :: x,x_new,a,diff,exact_solution_FM,pi_fm,floor_x,floor_exact
     type (mp_real) x_funmod90,x_new_mpfun90,diff_mpfun90,exact_solution_mp,pi_mp,floor_exact_mp,floor_x_mp,x_new_mp
-    type (mp_real) zero_mp,one_mp,ten_mp
+    type (mp_real) zero_mp,one_mp,ten_mp,thirteen_mp,fourteen_mp,smallest_mp
     ! ----------------------------------------------
     ! package used in class
     print *, "------ USING FMZM ------"
 
-    CALL FM_SET(55)
+    CALL FM_SET(1024)
 
     x=TO_FM('0.9878')
-    a=TO_FM('3')
 
     ! determine the exact solution
-    pi_fm=DACOS(-1.D0)
-    exact_solution_FM = exp(log(pi_fm/TO_FM(2))/TO_FM(14))
+    pi_fm=ACOS(TO_FM(-1))
+    exact_solution_FM = exp(log(pi_fm/TO_FM('2'))/TO_FM('14'))
 
     print * , 'starting value:'
     call FM_PRINT(x)
 
-    ! do a max of 10 iterations
-    do i=1,55
-        x_new = x + cos(x**14) / (sin(x**14)*14*x**13)
+    ! do a max of 55 iterations
+    do i=1,15
+        x_new = x + cos(x**TO_FM('14')) & 
+            / (sin(x**TO_FM('14'))*TO_FM('14')*(x**TO_FM('13')))
         diff = abs(x-x_new)
-        if (diff < 1.0D-55) then
+        if (diff < TO_FM('1.0Q-1024')) then
             print *, i
             exit
         end if 
@@ -63,23 +64,22 @@ program main
         print *, "iteration",i,"has an x of:"
         call FM_PRINT(x_new)
         print *, "rel error"
-        CALL FM_PRINT(abs((x_new/exact_solution_FM) -1))
+        CALL FM_PRINT(abs((x_new/exact_solution_FM) -TO_FM('1')))
+
+        x=x_new
 
         ! --- number of digits
         j=0
-        do   
-            floor_x = abs(floor((x_new)*(TO_FM(10)**TO_FM(j)))) 
-            floor_exact = abs(floor((exact_solution_FM)*(TO_FM(10)**TO_FM(j)))) 
-            if ((abs(floor_x - floor_exact))  > TO_FM(0) ) then
+        do j=0,1024
+            floor_x = abs(floor((x_new)*(TO_FM('10')**TO_FM(j)))) 
+            floor_exact = abs(floor((exact_solution_FM)*(TO_FM('10')**TO_FM(j)))) 
+            if ((abs(floor_x - floor_exact))  > TO_FM('0') ) then
                 exit
-            else
-                j = j+1
             end if
         end do
         print *, "number of digits correct:",j
         ! --- end number of digits
 
-        x=x_new
     end do
 
 
@@ -93,19 +93,23 @@ program main
 
     CALL MPINIT() !init function !!
     ! set the precision to 55 digits
-    CALL MPSETPREC(55) ! this is undocumented as far as i could tell, the subroutine can be found in mpmod90.f line 133 in my version
+    CALL MPSETPREC(256) ! this is undocumented as far as i could tell, the subroutine can be found in mpmod90.f line 133 in my version
 
     x_funmod90 = '0.9878'
-    pi_mp=DACOS(-1.D0)
-    exact_solution_mp = exp(log(pi_mp/2)/14)
+    thirteen_mp = '13'
+    fourteen_mp = '14'
+    pi_mp=ACOS(MPREAL(-1))
+    exact_solution_mp = exp(log(pi_mp/MPREAL('2'))/fourteen_mp)
+    smallest_mp = MPREAL(1.0D-256) 
     
     ! do a max of 10 iterations
     print *, "starting iteration"
-    do i=1,10
+    do i=1,15
         print *, "---"
-        x_new_mpfun90 = x_funmod90 + cos(x_funmod90**14) / (sin(x_funmod90**14)*14*x_funmod90**13)
+        x_new_mpfun90 = x_funmod90 + cos(x_funmod90**fourteen_mp) / &
+        (sin(x_funmod90**fourteen_mp)*fourteen_mp*(x_funmod90**thirteen_mp))
         diff_mpfun90 = abs(x_funmod90-x_new_mpfun90)
-        if (diff_mpfun90 < 1.0D-55) then
+        if (diff_mpfun90 <  smallest_mp) then
             print *, i
             exit
         end if
@@ -116,15 +120,12 @@ program main
         x_funmod90=x_new_mpfun90
 
         ! --- number of digits
-        j=0
-        do   
+        do j=0,256
             floor_x_mp = NINT((x_new_mpfun90)*(MPREAL('10')**MPREAL(j)))
             floor_exact_mp = NINT(exact_solution_mp*(MPREAL('10')**MPREAL(j))) 
 
-            if ((abs(floor_x_mp - floor_exact_mp))  > 0 .OR. j>55 ) then
+            if ((abs(floor_x_mp - floor_exact_mp))  > 0 .OR. j>256 ) then
                 exit
-            else
-               j = j+1
             end if
         end do
         print *, "number of digits correct:",j
@@ -136,5 +137,4 @@ program main
     CALL MPWRITE(6,x_funmod90)
     print *, "exact solution:"
     CALL MPWRITE(6,exact_solution_mp)
-    
 end program
