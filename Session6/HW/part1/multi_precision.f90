@@ -24,7 +24,28 @@
 ! .o bestanden : mpfun90.o mpmod90.o mpmodm90.o mpmodx90.o
 ! -------------------------------
 ! 
-! 
+! graph.png bevat een grafiek van het juiste aantal digits tov het aantal
+! iteraties. Het is duidelijk dat dit kwadratische convergentie is. Aangezien
+! het aantaljuiste digits verdubbeld bij iedere iteratie. 
+!
+! Beoordeling van de pakketten:
+! -> snelheid:
+! mpmod90 is duidelijk trager dan FM, bij het uitvoeren moet gewacht worden bij
+! mpmod90 en niet bij FMlib. 
+! ->precisie
+! mpmod90 heeft een kleiner bereik waardoor het bv niet tot 1024 cijfers kan
+! rekenen zoals met FM.
+! ->documentatie
+! De FMlib had betere documentatie dan mpmod90, mpmod90 had een pdf waar beknopt
+! wat functionaliteit in beschreven stond. Dit was echter onvoldoende, de
+! routine on de precisie aan te passen was niet vermeld. Waardoor ik die manueel
+! heb moeten zoeken in de source code. Gelukkig was wel de variabel die de
+! precisie bevat vermeld zodat ik toch gericht kon zoeken.
+! FMlib had degelijke informatie en goede voorbeeld programma's waar alles stond
+! die ik nodig had.
+! -> ondersteunde fortran standaard
+! -> ondersteunde compilers
+
 program main
     ! import lib from assignment in class
     USE FMZM

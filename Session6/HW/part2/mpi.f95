@@ -1,7 +1,10 @@
 ! WIT Willem Melis 
 ! 
 ! compiler commando: mpif90 mpi.f95 -llapack -lblas
-! uitvoeren:  mpirun -n 3 ./a.out
+! uitvoeren:  mpirun -n 8 ./a.out
+! 
+! Controle of  het programma wel degelijk in parallel word uitgevoerd:
+! 
 ! 
 program main
     USE mpi
@@ -130,9 +133,7 @@ program main
             first_element_of_H = H_original(1,1)
             upper_triangular_sum = strict_upper_triangular_sum(L)
  
-
-            ! print*, inf_norm_complex(H_original-H_chol) 
-
+            ! print *, inf_norm_complex(H_original-H_chol) 
             ! print *, strict_upper_triangular_sum(L)
         end subroutine
 end program main
