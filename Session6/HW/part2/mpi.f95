@@ -1,8 +1,15 @@
 ! WIT Willem Melis 
 ! 
 ! compiler commando: mpif90 mpi.f95 -llapack -lblas
-! uitvoeren:  mpirun -n 3 ./a.out
+! uitvoeren:  mpirun -n 3 ./a.out &
+! ps ax | grep a.out : toont aan dat er meerder processen zijn.
 ! 
+! 
+! Het spreekt voor zich dat N voldoen groot moet zijn om de processen eenvoudig waar te kunnen nemen.
+! Als N zeer klein is kan het zelf voorkomen dat al  de processen op de zelfde cpu blijven hangen.  (processor affiniteit)
+! Een N=1000 lijkt groot genoeg om de processen waar te nemen, en kan rustig volledig uitvoeren zodat 
+! het eindresultaat kan waargenomen worden.
+!
 program main
     USE mpi
     implicit none
@@ -10,7 +17,7 @@ program main
     integer :: status_mpi(MPI_status_size)
     logical :: send_recv_buffer,check
 
-    integer,parameter :: N=4
+    integer,parameter :: N=1000
     integer, parameter :: wp= selected_real_kind(4)
     complex :: first_element_of_H,upper_triangular_sum
 
@@ -129,10 +136,5 @@ program main
             H_chol =MATMUL(L,transpose(CONJG(L))) ! use the easy way, its only a check (discussion forum)
             first_element_of_H = H_original(1,1)
             upper_triangular_sum = strict_upper_triangular_sum(L)
- 
-
-            ! print*, inf_norm_complex(H_original-H_chol) 
-
-            ! print *, strict_upper_triangular_sum(L)
         end subroutine
 end program main
