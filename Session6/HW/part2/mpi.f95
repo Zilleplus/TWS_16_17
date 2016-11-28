@@ -3,7 +3,7 @@
 ! compiler commando: mpif90 mpi.f95 -llapack -lblas
 ! uitvoeren:  mpirun -n 3 ./a.out &
 ! ps ax | grep a.out : toont aan dat er meerder processen zijn.
-! 
+! uitvoeren:  mpirun -n 8 ./a.out
 ! 
 ! Het spreekt voor zich dat N voldoen groot moet zijn om de processen eenvoudig waar te kunnen nemen.
 ! Als N zeer klein is kan het zelf voorkomen dat al  de processen op de zelfde cpu blijven hangen.  (processor affiniteit)
@@ -136,5 +136,11 @@ program main
             H_chol =MATMUL(L,transpose(CONJG(L))) ! use the easy way, its only a check (discussion forum)
             first_element_of_H = H_original(1,1)
             upper_triangular_sum = strict_upper_triangular_sum(L)
+<<<<<<< HEAD
+=======
+ 
+            ! print *, inf_norm_complex(H_original-H_chol) 
+            ! print *, strict_upper_triangular_sum(L)
+>>>>>>> fff7e0711a69d1375477173d892497373919f4f5
         end subroutine
 end program main
