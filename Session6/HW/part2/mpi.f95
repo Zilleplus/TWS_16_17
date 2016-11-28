@@ -136,11 +136,5 @@ program main
             H_chol =MATMUL(L,transpose(CONJG(L))) ! use the easy way, its only a check (discussion forum)
             first_element_of_H = H_original(1,1)
             upper_triangular_sum = strict_upper_triangular_sum(L)
-<<<<<<< HEAD
-=======
- 
-            ! print *, inf_norm_complex(H_original-H_chol) 
-            ! print *, strict_upper_triangular_sum(L)
->>>>>>> fff7e0711a69d1375477173d892497373919f4f5
         end subroutine
 end program main
