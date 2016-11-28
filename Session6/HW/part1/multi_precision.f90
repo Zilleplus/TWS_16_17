@@ -43,8 +43,9 @@
 ! precisie bevat vermeld zodat ik toch gericht kon zoeken.
 ! FMlib had degelijke informatie en goede voorbeeld programma's waar alles stond
 ! die ik nodig had.
-! -> ondersteunde fortran standaard
 ! -> ondersteunde compilers
+! Beide pakketten lijken te werken met de GNU fortran compiler, maar bv ifort lijkt al niet te werken.
+! Dit zou kunnen een probleem zijn als de werkomgeving werkt met ifort.
 
 program main
     ! import lib from assignment in class
