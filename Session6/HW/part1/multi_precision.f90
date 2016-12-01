@@ -2,7 +2,12 @@
 ! WIT Willem Melis
 ! gecompiler commando:
 ! gfortran  fmsave.o  FM.o  FMZM90.o mpfun90.o mpmod90.o mpmodm90.o mpmodx90.o multi_precision.f90 
-! getest op server tienen
+! getest op server buken
+! totale tijd: 9-10 uur, zeer lang werk maar de opgave is wel duidelijk. De
+! meeste tijd gaat in het debuggen omdat vaak er vaak geen nuttige errors zijn.
+! De opgave zelf was wel zeer duidelijk, ik wist perfect wat is moest doen. En
+! uiteindelijk leerde ik wel veel bij het zoeken achter fouten. 
+.
 ! -------------------------------
 ! 
 ! -------------------------------
@@ -27,6 +32,10 @@
 ! graph.png bevat een grafiek van het juiste aantal digits tov het aantal
 ! iteraties. Het is duidelijk dat dit kwadratische convergentie is. Aangezien
 ! het aantaljuiste digits verdubbeld bij iedere iteratie. 
+! De grafiek is met de hand gemaakt in excel, het automatiseren van dit lijkt
+! meer werk dan het manueel overtypen van de 10 waarden...
+! Het had toch geen zin nog een grotere precisie te proberen mpmod90 kan toch
+! niet hoger.
 !
 ! Beoordeling van de pakketten:
 ! -> snelheid:
@@ -41,7 +50,7 @@
 ! routine on de precisie aan te passen was niet vermeld. Waardoor ik die manueel
 ! heb moeten zoeken in de source code. Gelukkig was wel de variabel die de
 ! precisie bevat vermeld zodat ik toch gericht kon zoeken.
-! FMlib had degelijke informatie en goede voorbeeld programma's waar alles stond
+! FMlib had degelijke documentatie en goede voorbeeld programma's waar alles stond
 ! die ik nodig had.
 ! -> ondersteunde compilers
 ! Beide pakketten lijken te werken met de GNU fortran compiler, maar bv ifort lijkt al niet te werken.
