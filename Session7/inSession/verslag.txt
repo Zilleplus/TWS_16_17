@@ -1,0 +1,26 @@
+1. JKI is de snelste van de eerste 6 oplossingen, KJI komt zeer dicht in de buurt.
+I wordt het best als binnenste loop uitgevoerd omdat deze altijd in de zelfde kollom blijven.
+
+--> c(i,j) = c(i,j) + a(i,k)*b(k,j)
+
+Merk op dat i bij c en a itereerd door de  kollom met index j of k.
+In b zal k itereren door de jde kollom
+
+Dit is in in Fortran sneller omdat de matrixen kollom per kollom worden bijgehouden. 
+Als een element uit de matrix wordt opgehaald zullen de volgende elementen uit de kollom 
+gecached worden. Als dit net de elementen zijn die nodig zijn in de volgende iteratie zal 
+het algortime dus een stuk sneller zijn.
+
+2. De vector operaties zijn duidelijk sneller dan de individueele operaties.
+De compiler kan hier dus beter optimaliseren.
+
+3. Het dot product wordt uitgerekend tussen  de rijen van a en de kollommen van b. 
+Het uitlezen van de rijen van a zal traag gebeuren omdat opnieuw fortran de matrixen per kollom bewaard.
+
+4. Door a te transponeren wordt het dot product berekend tussen twee kollommen, Het uitlezen
+van de kollommen van een matrix kan zeer snel gebeuren. Er is duidelijk een tijdwinst.
+
+
+5. BLAS lijkt raar genoeg geen meerdere cores te gebruiken, !!! opnieuw testen op PC's CS !!! 
+
+6. wat is de L2 cach grote
