@@ -1,3 +1,4 @@
+!  gfortran -O3 test.f90  matrixop.f90 -lblas -fopenmp
 !   Tests of several square matrix-matrix products
 
 program dmr
@@ -31,7 +32,9 @@ program dmr
     integer, dimension(:), allocatable :: seed
     real(kind=dp), dimension(:,:), allocatable :: a, b, c
     real(kind=dp), dimension(:,:), allocatable :: c_matmul
-    integer :: unit_number_loops,unit_number_dot_product,unit_number_blas,unit_number_block,unit_number_matmul
+    integer ::  unit_number_loops,unit_number_dot_product,&
+                unit_number_blas,unit_number_block, &
+                unit_number_matmul, unit_number_extra 
     integer :: index_test
 
     ! open the log files:
@@ -40,12 +43,14 @@ program dmr
     unit_number_blas=9
     unit_number_block=10
     unit_number_matmul=11
+    unit_number_extra=12
 
     OPEN(UNIT=unit_number_loops,        FILE="data_pureLoops.txt",FORM="FORMATTED",STATUS="REPLACE",ACTION="WRITE")
     OPEN(UNIT=unit_number_dot_product,  FILE="data_dot_product.txt",FORM="FORMATTED",STATUS="REPLACE",ACTION="WRITE")
     OPEN(UNIT=unit_number_blas,         FILE="data_blas.txt",FORM="FORMATTED",STATUS="REPLACE",ACTION="WRITE")
     OPEN(UNIT=unit_number_block,        FILE="data_block.txt",FORM="FORMATTED",STATUS="REPLACE",ACTION="WRITE")
     OPEN(UNIT=unit_number_matmul,       FILE="data_matmul.txt",FORM="FORMATTED",STATUS="REPLACE",ACTION="WRITE")
+    OPEN(UNIT=unit_number_extra,        FILE="data_extra.txt",FORM="FORMATTED",STATUS="REPLACE",ACTION="WRITE")
 
     ! Make sure we use the same pseudo-random numbers each time by initializing
     ! the seed to a certain value.
@@ -54,9 +59,9 @@ program dmr
     seed = N
     call random_seed(put=seed)
 
-    do index_test=7,8
+    do index_test=7,12
         N=2**index_test
-        blocksize=N/4
+        blocksize=N/8
 
         print * ,"starting test with N=",N
 
@@ -87,6 +92,10 @@ program dmr
         
         ! 7. Intrinsic matmul function
         call do_timing( "MATMUL", unit_number_matmul, a_maal_b_matmul )
+
+        ! 8. extra function , parallel blocks
+        call do_timing( "extra function", unit_number_extra , method_blocks=a_maal_b_extra)
+        
         deallocate(a, b, c, c_matmul)
     end do
     
@@ -96,13 +105,14 @@ program dmr
     CLOSE(UNIT=unit_number_blas)
     CLOSE(UNIT=unit_number_block)
     CLOSE(UNIT=unit_number_matmul)
+    CLOSE(UNIT=unit_number_extra)
 contains
     subroutine do_timing( name,unit_number, method, method_blocks )
         character(len=*), intent(in) :: name
         procedure(a_maal_b_interface), optional :: method
         procedure(a_maal_b_blocks_interface), optional :: method_blocks
         real(kind=dp) :: mynorm
-        integer,parameter :: number_of_simulations=10
+        integer,parameter :: number_of_simulations=20
         real :: t1, t2, delta_t(number_of_simulations)
         integer , intent(in):: unit_number
         integer i

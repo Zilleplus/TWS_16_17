@@ -1,8 +1,10 @@
 !   Implementation of several square matrix-matrix products
 
 module matrixop
+    Use omp_lib
     implicit none
     integer, parameter :: dp = selected_real_kind(15,307)
+
 contains
     !--------------------------------------------------------------------------
     ! 1. Three nested loops
@@ -244,5 +246,30 @@ contains
         real(kind=dp), dimension(:,:), intent(out) :: c
         c = matmul( a, b ) ! Already completed
     end subroutine a_maal_b_matmul
+    !--------------------------------------------------------------------------
+    ! 8. extra function
+    !--------------------------------------------------------------------------
+    subroutine a_maal_b_extra(a, b, c, blocksize)
+        real(kind=dp), dimension(:,:), intent(in)  :: a, b
+        real(kind=dp), dimension(:,:), intent(out) :: c
+        real(kind=dp), dimension(size(a,2),size(a,1))  :: a_transpose
+        integer :: i,j,k
+        integer, intent(in) :: blocksize
+        c = 0.0_dp 
+        a_transpose= transpose(a)
+        ! AVOID FALSE SHARING:
+        !$OMP PARALLEL DO ! shared(a,b,c) SCHEDULE(STATIC,4)
+        do j = 1,size(B,2),blocksize      
+        ! PRINT *, "NUM THREADS:", omp_get_thread_num()
+            do i = 1,size(A,1),blocksize
+                do k = 1,size(A,2),blocksize
+                     c(i:i+blocksize-1,j:j+blocksize-1)= & 
+                         c(i:i+blocksize-1,j:j+blocksize-1)&
+                         +matmul(A(i:i+blocksize-1,k:k+blocksize-1),B(k:k+blocksize-1,j:j+blocksize-1))
+               end do
+            end do
+        end do
+        !%OMP END PARALLEL
 
+    end subroutine a_maal_b_extra
 end module matrixop
