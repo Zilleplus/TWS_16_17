@@ -27,34 +27,53 @@ In principe kan het zijn dat de scheduler alle taken op 1 core plaatst, ps ax | 
 1 proces was.
 
 
-6. wat is de L2 cach grote? volgens /proc/cpu is de L2 cache 2KB groot 
-Dit betekend dat als we 2 (deel)matrixen hebben van groote n*n (a,b) en die in de cache willen krijgen 
-we dus een blokgrootte nemen van ongeveer:
-    sqrt(2048000/32)/2 = 125
+6. wat is de L2 cach grote? volgens /proc/cpu is de cache 256K groot
+De formule uit de presenties van de voorbereiding vermeld volgende formule:
+    de blocksize moet dus kleiner zijn dan sqrt(M/3)
+Aangezien gewerkt wordt met double precision die 8 bytes per woord bevatten moeten we M ook nog delen
+door 8 als we de eenheid van n willen idpv het aantal bytes.
+
+-> max_blocksize = sqrt((M/3)/aantal bytes in 1 getal) = sqrt(((256000/8)/3)) = 103.2796
+
+
 Dit is alsook waar te nemen met een klein experiment:
-We nemen een matrix van groote N=2048 en varieeren de blok grote n=?
+We nemen een matrix van groote N=3000 en varieeren de blok grote n=?
 
-n=32 16.03 seconden
-n=64 13.89 seconden
-n=128 13.46 seconden
-n=256 17.28 seconden
-n=512 15.49 seconden
-n=1024 15.01 seconden
+n=50   | 8.88  seconden
+n=100  | 8.14  seconden
+n=120  | 7.99  seconden
+n=150  | 9.46  seconden
+n=300  | 8.35  seconden
+n=1000 | 12.18 seconden
 
-Als we de grote zo kiezen dat de matrices volledig in het ram kunnen, zal de methode van het
+Als we de grote zo kiezen dat de deel matrices volledig in L2 cache kunnen, zal de methode van het
 vermenigivuldigen geen merkwaardig verschil meer maken voor de snelheid.
+
+Hetzelfde met nagfor leverd een veel slechter resultaat op. Een matrix van 2000*2000 elementen
+en een bocksize van 100 nemen 23 seconden in beslag. ( nagfor -O3 dmr.f90 matrixop.o -lblas)
 
 7. matmul
 We doen opnieuw hetzelfde experiment met een matrix van N=2048, dit maal varieeren we de blocksize
 van matmul bij het compileren
 
-met gfortran:
 
-n=16 15.1 seconden
-n=32 14.99 seconden
-n=64 15.08 seconden
-n=128 15.08 seconden
-n=256 15.06 seconden
-n=512 15.03 seconden
+gfortran -c matrixop.o  -lblas -fopenmp --param loop-block-tile-size=100
+gfortran dmr.f90 matrixop.o -lblas -fopenmp --param loop-block-tile-size=100
+nagfor: N=3000
+---------------------
+n=500 | 10.17 seconden
+n=200 | 9.98
+n=100 | 8.86 seconden
+n=50  | 9.3 seconden
 
-nagfor is ZEEER traag 37 seconden voor N=1024, onafhankelijk van de blocksize erbij of niet
+
+gfortran -c matrixop.f90 -O3 -lblas -floop-block -fopenmp --param loop-block-tile-size=500
+gfortran -O3 dmr.f90 matrixop.o -lblas -floop-block -fopenmp --param loop-block-tile-size=500
+gfortran: N=3000
+---------------------
+n=500 | 13.73 seconden
+n=200 | 13.67 seconden
+n=100 | 13.58 seconden
+n=50  | 13.67 seconden
+
+
