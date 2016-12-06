@@ -1,0 +1,6 @@
+     8  Infinity  Infinity  Infinity
+    16  Infinity  Infinity  Infinity
+    32  Infinity 0.538E+10 0.161E+08
+    64  Infinity 0.650E+10 0.130E+09
+   128  Infinity 0.104E+11 0.104E+10
+   256 0.837E+10 0.761E+10 0.419E+10
