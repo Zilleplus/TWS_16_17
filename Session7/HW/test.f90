@@ -3,17 +3,15 @@
 ! r0348639
 ! compiler commando: 
 !
-! gfortran -c matrixop.f90 -lblas -fopenmp  --param loop-block-tile-size=100
-! gfortran -O3 test.f90  matrixop.o -lblas -fopenmp  --param loop-block-tile-size=100
+! gfortran -c matrixop.f90 -O3 -lblas -fopenmp  
+! gfortran -O3 test.f90  matrixop.o -lblas -fopenmp  
 ! ./a.out
 !
 ! tijdsbesteding 6 uur
-! Wel heel irritant dat somige mensen uit het niets ploseling al de pc's op CW nodig
-! hebben voor berekeningen, en ik dus moet stoppen. Dit gebeurde meerdere keren.
-! Daarnaast heb ik de testen per ongeluk eens gedaan op een pc met minder goede specs.
-! de cache was veel kleiner en men resultaten waren plotseling veel slechter.
-! Misschien is dit een nuttige waarschuwing voor in de opgave, de pcs op CW zijn niet gelijk
-! van specs.
+! Ik heb een aantal  testen per ongeluk eens gedaan op een pc met minder goede specs.
+! de cache was veel kleiner en mijn resultaten waren plotseling veel slechter.
+! Misschien is dit een nuttige waarschuwing voor in de opgave van volgend jaar 
+!, pas op de PC's CW zijn niet gelijk van specs.
 ! ---------------------------------------------------------------------------------------
 ! OUTPUT:
 ! starting test with N=          20
@@ -61,11 +59,12 @@
 ! 
 ! 
 ! 5. BLAS lijkt raar genoeg geen meerdere cores te gebruiken, eerst keek op ik top als er meerdere 
-! core's belast waren. Dit bleek niet zo te zijn, dus vroeg ik me af of er wel nog verschillende processen waren. 
+! core's belast waren(bij het openen op 1 drukken..). 
+! Dit bleek niet zo te zijn, dus vroeg ik me af of er wel nog verschillende processen waren. 
 ! In principe kan het zijn dat de scheduler alle taken op 1 core plaatst, ps ax | grep a.out gaf aan dat er maar 
 ! 1 proces was.
 ! En aangezien de PC's op CW linux machines zijn weten we dat er een 1-1 mapping is tussen processen vanuit
-! userspace en kernel space. Dus geen multicore als er maar 1 proces ID zichtbaar is!
+! userspace en kernel space kunnen we besluiten dat: Dus geen multicore als er maar 1 proces ID zichtbaar is!
 !
 ! ####
 !
@@ -149,7 +148,7 @@
 !
 ! De link met de cursus/voorbereiding: uitleg cache,parallel algoritme, strassen algo vermeld... eerder linken.
 !
-! De grafiek is zoals te verwachten blas domineerd vrij extreem bij grote matrixen.
+! De grafiek is zoals te verwachten blas domineerd spectaculair bij grote matrixen, maar is alook beter bij kleiner.
 ! De extra methode die parallel is haalt matmul in vannaf een matrx van dimensie 800.
 ! Dan wordt waarschijnlijk de overhead van de parallelisatie relatief gezien zeer klein.
 ! matmul is de derde snelste en de blocks zit nog een beetje achter. De rest is vrij slecht.
@@ -157,6 +156,10 @@
 ! Bij het maximum is blas zeer dominant, alhoewel de metingen van het max aantal flop/s vrij slecht is zoals al eerder besproken.
 !
 ! Het minimum illustreerd hoe stabiel blas is, zelfs de minimum waarden blijven hoog!
+!
+! De extra methode is niet sneller dan block maar komt inde buurt, door gebruik te maken van de L3
+! cache grote zal die waarschijnlijk blocks kunnen inhalen bij grote matrixen.
+
 
 program dmr
     use matrixop
