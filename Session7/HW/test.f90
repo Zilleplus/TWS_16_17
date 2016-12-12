@@ -7,6 +7,8 @@
 ! gfortran -O3 test.f90  matrixop.o -lblas -fopenmp  
 ! ./a.out
 !
+! getest op computer zwalm
+!
 ! tijdsbesteding 6 uur
 ! Ik heb een aantal  testen per ongeluk eens gedaan op een pc met minder goede specs.
 ! de cache was veel kleiner en mijn resultaten waren plotseling veel slechter.
