@@ -11,15 +11,15 @@ You will not need the addition, substraction and scalar operators for the matric
 Adjust the file names or uncomment these matrix operations to avoid ambiguity (if there is any)
 
 */
-#ifdef EXPR
+//#ifdef EXPR
 #include "vector_expressions.hpp"
-#include "vector_expression_operations.hpp"
+//#include "vector_expression_operations.hpp"
 #include "matrix_expressions.hpp"
 #include "matrix_expression_operations.hpp"
-#else
-#include "vector_operations.hpp"
-#include "matrix_operations.hpp"
-#endif
+//#else
+//#include "vector_operations.hpp"
+//#include "matrix_operations.hpp"
+//#endif
 		
 
 int main(int argc, char *argv[]) {
@@ -55,20 +55,20 @@ int main(int argc, char *argv[]) {
   //TODO Define: xtx_op using X
  
   
-  tws::cg( xtx_op, x, b, 1.e-10, X.num_columns()*X.num_rows() ) ;
+  //tws::cg( xtx_op, x, b, 1.e-10, X.num_columns()*X.num_rows() ) ;
 
-  xtx_op ( x, b) ;
-  std::cout<<"relative error: "<<tws::norm_2(b-b_ex)/tws::norm_2(b_ex)<<std::endl;
+  //xtx_op ( x, b) ;
+  //std::cout<<"relative error: "<<tws::norm_2(b-b_ex)/tws::norm_2(b_ex)<<std::endl;
 
 
-  tws::vector<double> train_rating(X.num_rows(),1) ; 
-  train_rating=multiply(X,x);
-  std::transform(labels.begin(),labels.end(),labels.begin(),[](auto v){return (v+1)/2;}); 
-  std::cout<<"train auc roc: "<<tws::auc_roc(train_rating,labels)<<std::endl;    
+  //tws::vector<double> train_rating(X.num_rows(),1) ; 
+  //train_rating=multiply(X,x);
+  //std::transform(labels.begin(),labels.end(),labels.begin(),[](auto v){return (v+1)/2;}); 
+  //std::cout<<"train auc roc: "<<tws::auc_roc(train_rating,labels)<<std::endl;    
 
-  tws::vector<double> test_rating(Xtest.num_rows(),1) ; 
-  test_rating=multiply(Xtest,x);
-  std::transform(test_labels.begin(),test_labels.end(),test_labels.begin(),[](auto v){return (v+1)/2;}); 
-  std::cout<<"test auc roc: "<<tws::auc_roc(test_rating,test_labels)<<std::endl;
+  //tws::vector<double> test_rating(Xtest.num_rows(),1) ; 
+  //test_rating=multiply(Xtest,x);
+  //std::transform(test_labels.begin(),test_labels.end(),test_labels.begin(),[](auto v){return (v+1)/2;}); 
+  //std::cout<<"test auc roc: "<<tws::auc_roc(test_rating,test_labels)<<std::endl;
   return 0 ;
 } 
