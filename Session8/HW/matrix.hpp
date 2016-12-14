@@ -5,6 +5,7 @@
 #include <type_traits>
 #include <iostream>
 #include <vector>
+#include "vector.hpp"
 namespace tws {
 
 //TODO; minimal requirement for the given io-functionality
@@ -22,9 +23,10 @@ namespace tws {
 
         inline size_type size() const { return data_.size(); }
 
-        inline size_type num_columns() const { return collumLength; }
+        inline size_type num_columns() const { return rowLength; }
 
-        inline size_type num_rows() const { return rowLength; }
+
+        inline size_type num_rows() const { return collumLength; }
 
         /*
          * return the element on the i'th row and the j'th column
@@ -38,11 +40,11 @@ namespace tws {
         }
 
         friend std::ostream &operator<<(std::ostream &ostr, matrix<T> const &m) {
-            ostr << "(" << m.num_columns() << "," << m.num_rows()<< ")" << "\n";
+            ostr << "(" << m.num_rows() << "," << m.num_columns()<< ")" << "\n";
             for (size_type i = 0; i < m.num_rows(); ++i) {
                 ostr << "[ ";
                 for (size_type j = 0; j < m.num_columns(); ++j) {
-                    ostr << m(j, i) << " ";
+                    ostr << m(i, j) << " ";
                 }
                 ostr << "]" << "\n";
             }
@@ -53,13 +55,13 @@ namespace tws {
         inline void operator=(Matrix const &v) {
             for (size_type i = 0; i < num_rows(); ++i) {
                 for (int j = 0; j < num_columns(); ++j) {
-                    data_[j+num_columns()*i] = v(j, i);
+                    data_(i+j*collumLength) = v(i,j);
                 }
             }
         }
 
     private:
-        std::vector<value_type> data_;
+        tws::vector<value_type> data_;
         size_type collumLength;
         size_type rowLength;
     };

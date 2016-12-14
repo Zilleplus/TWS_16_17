@@ -48,6 +48,10 @@ namespace tws {
 
       inline value_type& operator[](size_type i) { return data_[i] ; }
 
+      inline value_type operator()(size_type i) const { return data_[i] ; }
+
+      inline value_type& operator()(size_type i) { return data_[i] ; }
+
       template <typename Scalar>
       inline void operator=(vector<Scalar> const& v ) {
          assert(this->size()==v.size());
@@ -56,21 +60,23 @@ namespace tws {
 
       template <typename Vector>
       inline void operator=(Vector const& v ) {
+         std::cout<<this->size() <<"||";
+         std::cout<<v.size()<<"\n";
          assert(this->size()==v.size());
-         for (size_type i=0; i<size(); ++i) { data_[i] = v[i] ; }
+         for (size_type i=0; i<size(); ++i) { data_[i] = v(i) ; }
       }
 
 
       template <typename Vector>
       inline void operator-=(Vector const& v ) {
          assert(this->size()==v.size());
-         for (size_type i=0; i<size(); ++i) { data_[i] = data_[i]-v[i] ; }
+         for (size_type i=0; i<size(); ++i) { data_[i] = data_[i]-v(i) ; }
       }
 
       template <typename Vector>
       inline void operator+=(Vector const& v ) { 
          assert(this->size()==v.size());
-         for (size_type i=0; i<size(); ++i) { data_[i] = data_[i]+v[i] ; }
+         for (size_type i=0; i<size(); ++i) { data_[i] = data_[i]+v(i) ; }
       }
 
       inline decltype(auto) begin(){return data_.begin();} 

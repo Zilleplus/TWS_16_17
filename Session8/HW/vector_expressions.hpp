@@ -39,6 +39,10 @@ namespace tws{
             V2 const& v2_ ;
     };
 
+    /* 
+     * the first parameter should be an array,
+     * the second should be just a number
+     */
     template<typename V1, typename V2>
     class vector_mul {
         public:
@@ -47,6 +51,8 @@ namespace tws{
             {}
             auto operator[](int i) const
             {return v2_*v1_[i];}
+            auto operator()(int i) const
+            {return v2_*v1_(i);}
         size_t size() const { return v1_.size() ; }
         private:
             V1 const& v1_ ;

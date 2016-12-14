@@ -13,7 +13,7 @@ Adjust the file names or uncomment these matrix operations to avoid ambiguity (i
 */
 //#ifdef EXPR
 #include "vector_expressions.hpp"
-//#include "vector_expression_operations.hpp"
+#include "vector_expression_operations.hpp"
 #include "matrix_expressions.hpp"
 #include "matrix_expression_operations.hpp"
 //#else
@@ -47,12 +47,23 @@ int main(int argc, char *argv[]) {
   tws::vector<double> x(X.num_columns(),0.) ; 
   tws::vector<double> b(X.num_columns(),0.) ; 
   tws::vector<double> b_ex(X.num_columns(),0.) ; 
+  tws::vector<double> y(X.num_columns(),0.) ; 
+
+  //std::cout << labels << "\n";
   b=multiply(transpose(X),labels);
-  b_ex=b;
+  //b_ex=b;
 
   double beta=1e1;
+  //std::cout <<X<<"\n";
+  //std::cout <<x<<"\n";
 
   //TODO Define: xtx_op using X
+   //y=multiply(transpose(X),multiply(X,x));//+beta*x;
+   //y=(transpose(X),multiply(X,x));//+beta*x;
+   //y=multiply(X,x);//+beta*x;
+   //std::cout << x;
+   //y=tws::vector_mul<tws::vector<double>,double>(x,beta);
+   //y=beta*x;
  
   
   //tws::cg( xtx_op, x, b, 1.e-10, X.num_columns()*X.num_rows() ) ;
