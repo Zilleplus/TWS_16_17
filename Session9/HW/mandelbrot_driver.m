@@ -16,7 +16,7 @@ yr = imag(center)+linspace(-radius,radius,steps);
 %% Calculate for a range of revisions
 revisions = [0:9, 99]; % Change this when you make a new revision.
 R_tilde_ref = mandelbrot_99(center,radius,steps,maxiter);
-for revisioni = 1:numel(revisions)
+for revisioni = 7:numel(revisions)
     % Select the revision and the corresponding function
     revision = revisions(revisioni);
     mandelbrot_fun = str2func(sprintf('mandelbrot_%02i',revision));

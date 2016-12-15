@@ -18,9 +18,8 @@ for r=1:maxiter
     [m,n] = find(R_tilde==maxiter);
     indices = m(1:end)+steps.*(n(1:end)-1);
     Z(indices) = Z(indices).*Z(indices) + C(indices);
-    if abs(Z(indices)) > 2
-        if(R_tilde(indices)==maxiter)
-            R_tilde(indices) = r;
-        end
-    end
+    
+    [m2,n2] = find(abs(Z(indices)) > 2);
+    indices2 = m2(1:end)+steps.*(n2(1:end)-1);
+    R_tilde(indices(indices2)) = r;
 end
