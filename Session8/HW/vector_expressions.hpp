@@ -19,7 +19,9 @@ namespace tws{
                 : v1_(v1),v2_(v2)
             {}
             auto operator[](int i) const
-            {return v1_[i]+v2_[i];}
+            {return v1_(i)+v2_(i);}
+            auto operator()(int i) const
+            {return v1_(i)+v2_(i);}
         size_t size() const { return v1_.size() ; }
         private:
             V1 const& v1_ ;
@@ -32,7 +34,7 @@ namespace tws{
                 : v1_(v1),v2_(v2)
             {}
             auto operator[](int i) const
-            {return v1_[i]-v2_[i];}
+            {return v1_(i)-v2_(i);}
         size_t size() const { return v1_.size() ; }
         private:
             V1 const& v1_ ;
@@ -46,17 +48,20 @@ namespace tws{
     template<typename V1, typename V2>
     class vector_mul {
         public:
-            vector_mul( V1 const& v1, V2 const& v2)
+            vector_mul( V1 const& v1, V2 const v2)
                 : v1_(v1),v2_(v2)
             {}
             auto operator[](int i) const
             {return v2_*v1_[i];}
             auto operator()(int i) const
-            {return v2_*v1_(i);}
+            {
+                assert(i<v1_.size());
+                return v2_*v1_(i);
+            }
         size_t size() const { return v1_.size() ; }
         private:
             V1 const& v1_ ;
-            V2 const& v2_ ;
+            V2 const v2_ ;
     };
 }
 #endif

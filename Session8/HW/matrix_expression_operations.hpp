@@ -5,11 +5,11 @@
 
 namespace tws {
     template<typename V>
-    inline tws::matrixTranspose<V> transpose(V m){
+    inline tws::matrixTranspose<V> transpose(const V m){
         return tws::matrixTranspose<V>(m);
     }
     template<typename V1, typename V2>
-    inline  tws::matVecProd<V1,V2> multiply(V1 A, V2 x){
+    inline  tws::matVecProd<V1,V2> multiply(const V1& A, const V2& x){
         return tws::matVecProd<V1,V2>(A,x); 
     }
 }

@@ -2,6 +2,7 @@
 #define TWS_CPP_VECTORS_MATRIX_EXPRESSIONS_HPP
 #include "matrix.hpp"
 #include "vector.hpp"
+#include <cassert>
 namespace tws{
     template<typename T>
     class matrixTranspose{
@@ -12,7 +13,9 @@ namespace tws{
             matrixTranspose( matrix_type const& data)
             : data_(data) 
             {}
-            auto operator()(int i, int j) const
+            inline auto operator()(int i, int j) const
+            {return data_(j,i);}
+            inline auto &operator()(int i, int j) 
             {return data_(j,i);}
             size_type num_columns()const {return data_.num_rows();}
             size_type num_rows()const {return data_.num_columns();}
@@ -30,20 +33,37 @@ namespace tws{
         matVecProd( matrix_type const& mat, vector_type const& vec)
         : matrix_(mat),
           vector_(vec)
-        {}
-        auto operator()(int i) const
         {
-            assert(i<=size());
+            assert(vec.size()==mat.num_columns());
+        }
+        inline auto operator()(int i) const
+        {
+            assert(i<size());
             size_type buffer=0;
             for(int index_row_matrix=0;
                     index_row_matrix<vector_.size();
                     index_row_matrix++)
             {
                 buffer += vector_(index_row_matrix)*matrix_(i,index_row_matrix);
-                std::cout << "b=" <<matrix_(i,index_row_matrix)<<"  " << i << " " << index_row_matrix<<"\n";
+
+//                std::cout << "b=" <<matrix_(i,index_row_matrix)<<"  " << i << " " << index_row_matrix<<"\n";
+//                std::cout << "bv=" <<vector_(index_row_matrix)<<" " << index_row_matrix<<"\n";
             }
             return buffer;
         }
+        //inline auto &operator()(int i) 
+        //{
+        //    assert(i<=size());
+        //    size_type buffer=0;
+        //    for(int index_row_matrix=0;
+        //            index_row_matrix<vector_.size();
+        //            index_row_matrix++)
+        //    {
+        //        buffer += vector_(index_row_matrix)*matrix_(i,index_row_matrix);
+        //        std::cout << "b=" <<matrix_(i,index_row_matrix)<<"  " << i << " " << index_row_matrix<<"\n";
+        //    }
+        //    return buffer;
+        //}
         size_type size() const{
             return matrix_.num_rows();
         }
