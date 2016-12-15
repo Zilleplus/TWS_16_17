@@ -19,24 +19,28 @@ namespace tws {
 
     public:
         inline matrix(size_type m, size_type n, value_type val) 
-            : data_(m * n, val), collumLength(m), rowLength(n) {}
+            : data_(m * n, val), columnLength(m), rowLength(n) {}
 
         inline size_type size() const { return data_.size(); }
 
         inline size_type num_columns() const { return rowLength; }
 
 
-        inline size_type num_rows() const { return collumLength; }
+        inline size_type num_rows() const { return columnLength; }
 
         /*
          * return the element on the i'th row and the j'th column
          */
-        inline value_type operator()(size_type i, size_type j) const {
-            return data_[i + collumLength * j];
+        inline value_type operator()(const size_type i, const size_type j) const {
+            assert(i<=this->num_rows());
+            assert(j<=this->num_columns());
+            return data_[i + columnLength * j];
         }
 
         inline value_type &operator()(size_type i, size_type j) {
-            return data_[i + collumLength * j];
+            assert(i<=this->num_rows());
+            assert(j<=this->num_columns());
+            return data_[i + columnLength * j];
         }
 
         friend std::ostream &operator<<(std::ostream &ostr, matrix<T> const &m) {
@@ -55,18 +59,16 @@ namespace tws {
         inline void operator=(Matrix const &v) {
             for (size_type i = 0; i < num_rows(); ++i) {
                 for (int j = 0; j < num_columns(); ++j) {
-                    data_(i+j*collumLength) = v(i,j);
+                    data_[i+j*columnLength] = v(i,j);
                 }
             }
         }
 
     private:
-        tws::vector<value_type> data_;
-        size_type collumLength;
+        std::vector<value_type> data_;
+        size_type columnLength;
         size_type rowLength;
     };
-
-
 }
 
 #endif

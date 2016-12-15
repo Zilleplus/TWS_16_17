@@ -45,11 +45,16 @@ int main(int argc, char *argv[]) {
 
 
   tws::vector<double> x(X.num_columns(),0.) ; 
-  tws::vector<double> b(X.num_columns(),0.) ; 
+  tws::vector<double> b(2,0.) ; 
+  //tws::vector<double> b(X.num_columns(),0.) ; 
   tws::vector<double> b_ex(X.num_columns(),0.) ; 
   tws::vector<double> y(X.num_columns(),0.) ; 
 
   //std::cout << labels << "\n";
+  std::cout<<transpose(X).num_columns()<<"\n";
+  std::cout<<transpose(X).num_rows()<<"\n";
+  std::cout<<labels.size()<<"\n";
+  std::cout<<b.size()<<"\n";
   b=multiply(transpose(X),labels);
   //b_ex=b;
 

@@ -32,13 +32,20 @@ namespace tws{
         {}
         auto operator()(int i) const
         {
+            assert(i<=size());
             size_type buffer=0;
-            for(int index_row_matrix=0;index_row_matrix<matrix_.num_columns();index_row_matrix++){
+            for(int index_row_matrix=0;
+                    index_row_matrix<vector_.size();
+                    index_row_matrix++)
+            {
                 buffer += vector_(index_row_matrix)*matrix_(i,index_row_matrix);
+                //std::cout << "b=" <<matrix_(i,index_row_matrix)<<"  " << index_row_matrix<<"\n";
             }
             return buffer;
         }
-        size_type size() const{return vector_.size();}
+        size_type size() const{
+            return matrix_.num_rows();
+        }
 
     private:
         matrix_type const& matrix_ ;
