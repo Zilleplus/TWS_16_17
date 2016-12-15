@@ -49,7 +49,6 @@ namespace tws {
 
       inline value_type operator[](size_type i) const 
       { 
-          std::cout << i<< "\n";
           assert(i<=this->size());
           return data_[i] ; 
       }
@@ -80,8 +79,6 @@ namespace tws {
 
       template <typename Vector>
       inline void operator=(Vector const& v ) {
-         std::cout<<this->size() <<"||";
-         std::cout<<v.size()<<"\n";
          assert(this->size()==v.size());
          for (size_type i=0; i<size(); ++i) { data_[i] = v(i) ; }
       }

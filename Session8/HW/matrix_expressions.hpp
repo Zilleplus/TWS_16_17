@@ -28,7 +28,8 @@ namespace tws{
         typedef V2 vector_type;
 
         matVecProd( matrix_type const& mat, vector_type const& vec)
-        : matrix_(mat),vector_(vec)
+        : matrix_(mat),
+          vector_(vec)
         {}
         auto operator()(int i) const
         {
@@ -39,7 +40,7 @@ namespace tws{
                     index_row_matrix++)
             {
                 buffer += vector_(index_row_matrix)*matrix_(i,index_row_matrix);
-                //std::cout << "b=" <<matrix_(i,index_row_matrix)<<"  " << index_row_matrix<<"\n";
+                std::cout << "b=" <<matrix_(i,index_row_matrix)<<"  " << i << " " << index_row_matrix<<"\n";
             }
             return buffer;
         }
