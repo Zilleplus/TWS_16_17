@@ -15,6 +15,7 @@ namespace tws{
     template<typename V1, typename V2>
     class vector_sum {
         public:
+            typedef int size_type ;
             vector_sum( V1 const& v1, V2 const& v2)
                 : v1_(v1),v2_(v2)
             {}
@@ -30,12 +31,16 @@ namespace tws{
     template<typename V1, typename V2>
     class vector_diff {
         public:
+            typedef int size_type ;
             vector_diff( V1 const& v1, V2 const& v2)
                 : v1_(v1),v2_(v2)
             {}
             auto operator[](int i) const
             {return v1_(i)-v2_(i);}
         size_t size() const { return v1_.size() ; }
+
+        //inline decltype(auto) cbegin() const {return v1_.cbegin()-v2_.cbegin();}
+        //inline decltype(auto) cend() const {return v1_.cend()-v2_.cend() ;}
         private:
             V1 const& v1_ ;
             V2 const& v2_ ;
@@ -48,6 +53,7 @@ namespace tws{
     template<typename V1, typename V2>
     class vector_mul {
         public:
+            typedef int size_type ;
             vector_mul( V1 const& v1, V2 const v2)
                 : v1_(v1),v2_(v2)
             {}

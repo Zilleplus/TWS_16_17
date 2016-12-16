@@ -9,15 +9,11 @@ You will not need the addition, substraction and scalar operators for the matric
 Adjust the file names or uncomment these matrix operation to avoid ambiguity (if there is any)
 
 */
-#ifdef EXPR
 #include "vector_expressions.hpp"
 #include "vector_expression_operations.hpp"
 #include "matrix_expressions.hpp"
 #include "matrix_expression_operations.hpp"
-#else
-#include "vector_operations.hpp"
-#include "matrix_operations.hpp"
-#endif
+#include "matvec.hpp"
 		
 
 int main(int argc, char *argv[]) {
@@ -31,6 +27,7 @@ int main(int argc, char *argv[]) {
   tws::matrix<double> X(N,N,1.0);
 
   //TODO: Create xtx_op, use your knowledge from C++2
+  Matvec <tws::vector<double>, double, tws::matrix<double>> xtx_op(beta,X);
   tws::time_mv(xtx_op,N,number_exp,discard);
 
   return 0 ;
