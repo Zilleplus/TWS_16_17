@@ -1,4 +1,7 @@
 #!/bin/bash
+g++ -std=c++14 -DNDEBUG -O3 time_xtx.cpp -o noTemp.out
+g++ -std=c++14 -DNDEBUG -DwithTemp -O3 time_xtx.cpp -o withTemp.out
+
 rm *.data
 i_max=$1
 
