@@ -46,24 +46,11 @@ namespace tws{
             {
                 buffer += vector_(index_row_matrix)*matrix_(i,index_row_matrix);
 
-//                std::cout << "b=" <<matrix_(i,index_row_matrix)<<"  " << i << " " << index_row_matrix<<"\n";
-//                std::cout << "bv=" <<vector_(index_row_matrix)<<" " << index_row_matrix<<"\n";
+//                std::cout << "b=" <<matrix_(i,index_row_matrix)<<"  " << i << " " << index_row_matrix << " " 
+//                    << "bv=" << vector_(index_row_matrix)<<" " << index_row_matrix<<"\n";
             }
             return buffer;
         }
-        //inline auto &operator()(int i) 
-        //{
-        //    assert(i<=size());
-        //    size_type buffer=0;
-        //    for(int index_row_matrix=0;
-        //            index_row_matrix<vector_.size();
-        //            index_row_matrix++)
-        //    {
-        //        buffer += vector_(index_row_matrix)*matrix_(i,index_row_matrix);
-        //        std::cout << "b=" <<matrix_(i,index_row_matrix)<<"  " << i << " " << index_row_matrix<<"\n";
-        //    }
-        //    return buffer;
-        //}
         size_type size() const{
             return matrix_.num_rows();
         }
