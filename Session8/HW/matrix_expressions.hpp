@@ -9,6 +9,7 @@ namespace tws{
         public:
             typedef int     size_type ;
             typedef T       matrix_type;
+            typedef typename T::value_type value_type;
 
             matrixTranspose( matrix_type const& data)
             : data_(data) 
@@ -29,6 +30,7 @@ namespace tws{
         typedef int     size_type ;
         typedef V1 matrix_type;
         typedef V2 vector_type;
+        typedef typename V1::value_type value_type;
 
         matVecProd( matrix_type const& mat, vector_type const& vec)
         : matrix_(mat),
@@ -39,22 +41,18 @@ namespace tws{
         inline auto operator()(int i) const
         {
             assert(i<size());
-            size_type buffer=0;
+            value_type buffer=0;
             for(int index_row_matrix=0;
                     index_row_matrix<vector_.size();
                     index_row_matrix++)
             {
                 buffer += vector_(index_row_matrix)*matrix_(i,index_row_matrix);
-
-//                std::cout << "b=" <<matrix_(i,index_row_matrix)<<"  " << i << " " << index_row_matrix << " " 
-//                    << "bv=" << vector_(index_row_matrix)<<" " << index_row_matrix<<"\n";
             }
             return buffer;
         }
         size_type size() const{
             return matrix_.num_rows();
         }
-
     private:
         matrix_type const& matrix_ ;
         vector_type const& vector_ ;
