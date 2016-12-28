@@ -1,0 +1,33 @@
+\documentclass{standalone}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{tikz}
+\pgfplotsset{compat=1.13}
+\begin{document}
+
+\begin{tikzpicture}
+\begin{axis}[
+height=8cm,
+width=12cm,
+xmode = log,
+ymode = log,
+grid=both,
+grid style={line width=.1pt, draw=gray!20},
+major grid style={line width=.2pt,draw=gray!60},
+minor tick num=5,
+xlabel=n,ylabel=maximum error,
+legend pos=north west,
+legend style={font=\small}
+]
+\addplot+[mark=none,very thick,densely dotted,error bars/.cd,y dir=both,y explicit,x dir=both,x explicit,error bar style={solid,very thin}] table[x index=0, y index =1] {./withTemp.data};  % <======Adjust file name; x index = 0 means x can be found in column 0
+\addplot+[mark=none,very thick,dashdotted,error bars/.cd,y dir=both,y explicit,x dir=both,x explicit,error bar style={solid,very thin}] table[x index=0, y index =1] {./noTemp.data};  % <======Adjust file name; x index = 0 means x can be found in column 0
+
+\addplot+[mark=none,very thick,densely dotted,error bars/.cd,y dir=both,y explicit,x dir=both,x explicit,error bar style={solid,very thin}] table[x index=0, y index =1] {./noTempTheo.txt};  % <======Adjust file name; x index = 0 means x can be found in column 0
+\addplot+[mark=none,very thick,densely dotted,error bars/.cd,y dir=both,y explicit,x dir=both,x explicit,error bar style={solid,very thin}] table[x index=0, y index =1] {./withTempTheo.txt};  % <======Adjust file name; x index = 0 means x can be found in column 0
+%\addplot+[mark=none,dashed,very thick,error bars/.cd,y dir=both,y explicit,x dir=both,x explicit,error bar style={solid,very thin}] table[x index=0, y index =1,y error index=2] {sum_O1.out};
+%\addplot+[mark=none,very thick,dashdotted,error bars/.cd,y dir=both,y explicit,x dir=both,x explicit,error bar style={solid,very thin}] table[x index=0, y index =1,y error index=2] {sum_Ofast.out};
+\legend{with temp,no temp, $N^3$, $N^2$};
+\end{axis}
+
+\end{tikzpicture}
+\end{document}   
